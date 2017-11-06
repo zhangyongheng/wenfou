@@ -1,0 +1,47 @@
+﻿<#-- freemarker默认的数字格式是1,000 -->
+<#setting number_format="#">
+<script type="text/javascript" src="${base}/js/jquery-1.10.2.min.js"></script>
+<script>
+		$(function() {
+			$(".profile-link").attr("href", "${base}/profile/" + localStorage.userId);
+			$(".profile-follow-question-link").attr("href", "${base}/profileFollowQuestion/" + localStorage.userId);
+			$(".profile-question-link").attr("href", "${base}/profileQuestion/" + localStorage.userId);
+			if (localStorage.avatarUrl) {
+				$("#profile-avatar").attr("src", );
+			}
+			$("#profile-username").text(localStorage.username);
+		});
+	</script>
+<div class="nav">
+	<div class="nav-wrap">
+		<a href="index" class="logo">闻否</a>
+		<div class="top-nav">
+			<ul>
+				<li><a href="${base}/index">首页</a></li>
+				<li><a href="${base}/topics">话题</a></li>
+				<li><a href="${base}/explore">发现</a></li>
+				<li><a href="${base}/message">消息</a></li>
+			</ul>
+		</div>
+		<div class="search-area">
+			<form action="${base}/listTopicByTopicName" action="post">
+				<input name="topicName" type="text" class="search-input" placeholder="搜索你感兴趣的内容...">
+				<button type="submit" class="search-button">
+				<i class="sprite-search"></i>
+				</button>
+			</form>
+		</div>
+		<button class="ask-question open-mask">提问</button>
+		<div class="nav-profile">
+			<a id="profile-link" href="profile" class="profile-link">
+			<img id="profile-avatar" src="${base}/image/avatar.png">
+			<span id="profile-username"></span>
+			</a>
+			<ul class="nav-dropdown">
+				<li><a href="${base}/profile" class="profile-link"><i class="sprite-nav-profile"></i>&nbsp;&nbsp;&nbsp;我的主页</a></li>
+				<li><a href="${base}/setting"><i class="sprite-nav-setting"></i>&nbsp;&nbsp;&nbsp;设置</a></li>
+				<li><a href="${base}/logout"><i class="sprite-nav-logout"></i>&nbsp;&nbsp;&nbsp;退出</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
