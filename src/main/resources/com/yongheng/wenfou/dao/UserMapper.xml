@@ -2,6 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yongheng.wenfou.dao.UserMapper">
 
+	<resultMap type="User" id="UserMap">
+		<id column="user_id" property="userId"/>
+		<result column="avatar_url" property="avatarUrl"/>
+		<result column="activation_state" property="activationState"/>
+		<result column="simple_desc" property="simpleDesc"/>
+		<result column="full_desc" property="fullDesc"/>
+		<result column="liked_count" property="likedCount"/>
+		<result column="collected_count" property="collectedCount"/>
+		<result column="follow_count" property="followCount"/>
+		<result column="followed_count" property="followedCount"/>
+		<result column="scaned_count" property="scanedCount"/>
+		<result column="join_time" property="joinTime"/>
+	
+	</resultMap>
+
 	<insert id="insertUser">
 		<selectKey resultType="int" order="AFTER" keyProperty="userId">
 			select last_insert_id() as userId
@@ -28,7 +43,7 @@
 		select user_id from user where email = #{email} and password = #{password}
 	</select>
 
-	<select id="selectUserInfoByUserId" resultType="User">
+	<select id="selectUserInfoByUserId" resultMap="UserMap">
 		select user_id,username,avatar_url,simple_desc from user where user_id =
 		#{userId}
 	</select>
@@ -42,13 +57,13 @@
 		#{activationCode}
 	</update>
 
-	<select id="selectProfileInfoByUserId" resultType="User">
+	<select id="selectProfileInfoByUserId" resultMap="UserMap">
 		select
 		user_id,username,avatar_url,gender,simple_desc,position,industry,career,education,full_desc,liked_count,collected_count,follow_count,followed_count,scaned_count
 		from user where user_id = #{userId}
 	</select>
 
-	<select id="listUserInfoByUserId" resultType="User">
+	<select id="listUserInfoByUserId" resultMap="UserMap">
 		select user_id,username,avatar_url,simple_desc from user
 		<where>
 			user_id in

@@ -1,7 +1,9 @@
 package com.yongheng.wenfou.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,7 +16,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yongheng.wenfou.dao.AnswerMapper;
+import com.yongheng.wenfou.dao.CommentMapper;
 import com.yongheng.wenfou.dao.UserMapper;
+import com.yongheng.wenfou.po.Answer;
 import com.yongheng.wenfou.po.User;
 import com.yongheng.wenfou.util.MyUtil;
 
@@ -23,6 +28,12 @@ public class UserService {
 
 	@Autowired
 	private UserMapper userMapper;
+
+	@Autowired
+	private AnswerMapper answerMapper;
+
+	@Autowired
+	private CommentMapper commentMapper;
 
 	/* 注册 */
 	public Map<String, String> register(String username, String email, String password) {
@@ -152,6 +163,51 @@ public class UserService {
 	public void updateAvatarUrl(Integer userId, String avatarUrl) {
 		userMapper.updateAvatarUrl(userId, avatarUrl);
 
+	}
+
+	public Map<String, Object> getIndexDetail(Integer userId, Integer curPage) {
+		Map<String, Object> map = new HashMap<>();
+
+		List<Integer> idList = new ArrayList<>();
+		idList.add(3);
+		idList.add(4);
+		List<Answer> answerList = new ArrayList<Answer>();
+		if (idList.size() > 0) {
+			answerList = _getIndexDetail(idList, curPage);
+		}
+
+		map.put("answerList", answerList);
+		return map;
+	}
+
+	private List<Answer> _getIndexDetail(List<Integer> idList, Integer curPage) {
+
+		// 当请求页数为空时
+		curPage = curPage == null ? 1 : curPage;
+		// 每页记录数，从哪开始
+		int limit = 8;
+		int offset = (curPage - 1) * limit;
+		// 构造查询map
+		Map<String, Object> map = new HashMap<>();
+		map.put("offset", offset);
+		map.put("limit", limit);
+		map.put("userIdList", idList);
+		List<Answer> answerList = answerMapper.listAnswerByUserIdList(map);
+
+		for (Answer answer : answerList) {
+			int commentCount = commentMapper.selectAnswerCommentCountByAnswerId(answer.getAnswerId());
+			answer.setCommentCount(commentCount);
+		}
+
+		return answerList;
+	}
+	
+	public Map<String, Object> profile(Integer userId) {
+		Map<String, Object> map = new HashMap<>();
+		User user = userMapper.selectProfileInfoByUserId(userId);
+		
+		map.put("user", user);
+		return map;
 	}
 
 }

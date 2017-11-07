@@ -34,7 +34,8 @@
 				{{each answerList}}
 				<div class="feed-item">
 					<div class="avatar">
-						<a href="${base}/profile/{{$value.user.userId}}"><img src="{{$value.user.avatarUrl}}"></a>
+						<a href="${base}/profile/{{$value.user.userId}}">
+						<img src="{{$value.user.avatarUrl}}"></a>
 					</div>
 					<div class="vote-count">
 						<% if($value.likeState=="true"){ %>
@@ -47,7 +48,7 @@
 						<div class="feed-source">
 							<a href="${base}/profile/{{$value.user.userId}}">{{$value.user.username}}</a>
 							<span>&nbsp;回答了问题</span>
-							<span>&nbsp;•&nbsp;</span>
+							<span>&nbsp;~&nbsp;</span>
 							<span>{{$value.createTime | $longToDateString}}</span>
 						</div>
 						<h2 class="feed-title">

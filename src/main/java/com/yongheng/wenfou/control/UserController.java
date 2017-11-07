@@ -7,12 +7,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yongheng.wenfou.po.Answer;
+import com.yongheng.wenfou.po.PageBean;
+import com.yongheng.wenfou.service.AnswerService;
 import com.yongheng.wenfou.service.UserService;
 import com.yongheng.wenfou.util.Response;
-
 
 @Controller
 @RequestMapping("/")
@@ -21,6 +25,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private AnswerService answerService;
 
 	@RequestMapping("/toLogin")
 	public String toLogin() {
@@ -38,7 +44,6 @@ public class UserController {
 			return new Response(1, map.get("error").toString());
 		}
 	}
-	
 
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
@@ -46,6 +51,15 @@ public class UserController {
 		return "redirect:/toLogin";
 	}
 
-	
+	@RequestMapping("/profile/{userId}")
+	public String profile(@PathVariable Integer userId, Integer page, HttpServletRequest request, Model model) {
+		Map<String, Object> map = userService.profile(userId);
+		// 获取回答列表
+		PageBean<Answer> pageBean = answerService.listAnswerByUserId(userId, page);
+		map.put("pageBean", pageBean);
+
+		model.addAllAttributes(map);
+		return "profileAnswer";
+	}
 
 }

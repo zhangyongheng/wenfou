@@ -24,9 +24,9 @@ public class User {
 	private Integer collectedCount;
 	private Integer followCount;
 	private Integer followedCount;
-	private Integer followTopicCount;
-	private Integer followQuestionCount;
-	private Integer followCollectionCount;
+	private Integer followTopicCount = 0;
+	private Integer followQuestionCount = 0;
+	private Integer followCollectionCount = 0;
 
 	private Integer scanedCount;
 	private Long joinTime;

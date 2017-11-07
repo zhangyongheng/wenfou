@@ -2,10 +2,6 @@ $(function() {
 
 	window.page = 1;
 
-	$("#userAvatar").attr("src", localStorage.avatarUrl);
-
-	getWeiboUserInfo();
-
 	// feed流中，移入移出的处理
 	var feedMeta = $(".feed-meta");
 	feedMeta.mouseover(function() {
@@ -19,8 +15,12 @@ $(function() {
 	getIndexDetail(window.page);
 
 	window.onscroll = function() {
-		if (getScrollTop() + getClientHeight() == getScrollHeight()) {
-			getIndexDetail(window.page);
+		
+		if (getScrollTop() + 1 >= $(document).height() - $(window).height()) {
+			setTimeout(function() {
+				getIndexDetail(window.page);
+			}, 200);
+			
 		}
 	}
 
@@ -29,8 +29,9 @@ $(function() {
 		var feedList = $("#feedList");
 		var formData = new FormData();
 		formData.append("page", page);
+		formData.append("userId", localStorage.getItem("userId"));
 		$.ajax({
-			url : basepath + "getIndexDetail",
+			url : "getIndexDetail",
 			type : "post",
 			data : formData,
 			processData : false,
@@ -48,23 +49,5 @@ $(function() {
 		window.page++;
 	}
 
-	function getWeiboUserInfo() {
-		var form = new FormData();
-		$.ajax({
-			url : basepath + "getWeiboUserInfo",
-			type : "post",
-			data : form,
-			processData : false,
-			contentType : false,
-			success : function(response) {
-				if (response.state == 0) {
-					console.log(response.data);
-					localStorage.setItem("userId", response.data.userId);
-					localStorage.setItem("username", response.data.username);
-					localStorage.setItem("avatarUrl", response.data.avatarUrl);
-				}
-			}
-		});
-	}
 
 });
