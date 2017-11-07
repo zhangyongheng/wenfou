@@ -73,5 +73,23 @@
 		<!-- 编码格式 -->
 		<property name="defaultEncoding" value="utf-8" />
 	</bean>
+	
+	<!--配置拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*" />
+			<bean class="com.yongheng.wenfou.interceptor.LoginInterceptor">
+				<property name="excludedUrls">
+					<list>
+						<value>/toLogin</value>
+						<value>/register</value>
+						<value>/login</value>
+						<value>/activate</value>
+						<value>/logout</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>
