@@ -4,14 +4,21 @@ $(function(){
 	var closeMask = $(".close-mask");
 	var mask = $(".mask");
 	var askModal = $("#ask-modal");
+	var editArea = $(".edit-area");
 
 	openMask.click(function(){
 		mask.show();
 		askModal.show();
+		if (editArea) {
+			editArea.hide();
+		}
 	});
 	closeMask.click(function(){
 		mask.hide();
 		askModal.hide();
+		if (editArea) {
+			editArea.show();
+		}
 	});
 
 	/*富文本编辑器创建*/

@@ -86,11 +86,6 @@
 						<div class="answer-title">
 							<a href="${base}/question/${answer.question.questionId}#answer-${answer.answerId}">${answer.question.questionTitle}</a>
 						</div>
-						<div class="answer-meta">
-							<img src="${answer.user.avatarUrl}">
-							<h4>${answer.user.username}</h4>
-							<h5>${answer.user.simpleDesc}</h5>
-						</div>
 						<div class="answer-content">
 							<div>
 								${answer.answerContent}
@@ -131,41 +126,6 @@
 							获得
 						<span> ${user.collectedCount} </span>次收藏
 					</p>
-				</div>
-			</div>
-			<div class="follow-info">
-				<div class="follow-people">
-					<div class="wrap">
-						<h4>
-						<p>
-							关注了
-						</p>
-						<p>
-							${user.followCount}
-						</p>
-						</h4>
-						<h4>
-						<p>
-							关注者
-						</p>
-						<p>
-							${user.followedCount}
-						</p>
-						</h4>
-					</div>
-				</div>
-				<div class="follow-other" id="follow-other">
-					<ul>
-						<li><a id="sidebar-following-topic" href="${base}/profileFollowTopic/${user.userId}"><span>关注的话题</span>
-						<span>${user.followTopicCount}</span>
-						</a></li>
-						<li><a id="sidebar-following-question" href="${base}/profileFollowQuestion/${user.userId}"><span>关注的问题</span>
-						<span>${user.followQuestionCount}</span>
-						</a></li>
-						<li><a id="sidebar-following-collection" href="${base}/profileFollowCollection/${user.userId}"><span>关注的收藏夹</span>
-						<span>${user.followCollectionCount}</span>
-						</a></li>
-					</ul>
 				</div>
 			</div>
 			<div class="footer">
