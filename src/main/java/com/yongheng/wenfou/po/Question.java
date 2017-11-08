@@ -1,7 +1,5 @@
 package com.yongheng.wenfou.po;
 
-import java.util.List;
-
 public class Question {
 	private Integer questionId;
 	private String questionTitle;
@@ -15,8 +13,6 @@ public class Question {
 
 	private User user;
 	private Integer answerCount;
-
-	private List<QuestionComment> questionCommentList;
 
 	public Integer getQuestionId() {
 		return questionId;
@@ -90,14 +86,6 @@ public class Question {
 		this.user = user;
 	}
 
-	public List<QuestionComment> getQuestionCommentList() {
-		return questionCommentList;
-	}
-
-	public void setQuestionCommentList(List<QuestionComment> questionCommentList) {
-		this.questionCommentList = questionCommentList;
-	}
-
 	public Integer getAnswerCount() {
 		return answerCount;
 	}
@@ -108,8 +96,10 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [questionId=" + questionId + ", questionTitle=" + questionTitle + ", questionContent=" + questionContent + ", topicKvList=" + topicKvList + ", followedCount=" + followedCount + ", scanedCount=" + scanedCount + ", createTime=" + createTime + ", userId=" + userId + ", user="
-				+ user + ", answerCount=" + answerCount + ", questionCommentList=" + questionCommentList + "]";
+		return "Question [questionId=" + questionId + ", questionTitle=" + questionTitle + ", questionContent="
+				+ questionContent + ", topicKvList=" + topicKvList + ", followedCount=" + followedCount
+				+ ", scanedCount=" + scanedCount + ", createTime=" + createTime + ", userId=" + userId + ", user="
+				+ user + ", answerCount=" + answerCount + "]";
 	}
 
 }

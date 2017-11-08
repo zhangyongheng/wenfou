@@ -1,20 +1,20 @@
 ﻿<#-- freemarker默认的数字格式是1,000 -->
 <#setting number_format="#">
-<script type="text/javascript" src="${base}/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
 		$(function() {
 			$(".profile-link").attr("href", "${base}/profile/" + localStorage.userId);
 			$(".profile-follow-question-link").attr("href", "${base}/profileFollowQuestion/" + localStorage.userId);
 			$(".profile-question-link").attr("href", "${base}/profileQuestion/" + localStorage.userId);
-			if (localStorage.avatarUrl) {
-				$("#profile-avatar").attr("src", );
+			if (localStorage.avatarUrl && localStorage.avatarUrl != "null") {
+				$("#profile-avatar").attr("src", localStorage.avatarUrl);
 			}
 			$("#profile-username").text(localStorage.username);
 		});
 	</script>
 <div class="nav">
 	<div class="nav-wrap">
-		<a href="index" class="logo">闻否</a>
+		<a href="${base}/index" class="logo">闻否</a>
 		<div class="top-nav">
 			<ul>
 				<li><a href="${base}/index">首页</a></li>

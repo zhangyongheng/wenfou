@@ -5,7 +5,7 @@
 <title>首页</title>
 <link rel="stylesheet" type="text/css" href="${base}/css/wangEditor.css">
 <link rel="stylesheet" type="text/css" href="${base}/css/base.css">
-<link rel="stylesheet" type="text/css" href="${base}/css/nav2.css">
+<link rel="stylesheet" type="text/css" href="${base}/css/nav.css">
 <link rel="stylesheet" type="text/css" href="${base}/css/mask.css">
 <link rel="stylesheet" type="text/css" href="${base}/css/index.css">
 </head>
@@ -55,7 +55,7 @@
 							<a href="${base}/question/{{$value.question.questionId}}#answer-{{$value.answerId}}">{{$value.question.questionTitle}}</a>
 						</h2>
 						<div class="feed-user-info">
-							<a href="#">{{$value.user.username}}</a>
+							<a href="${base}/profile/{{$value.user.userId}}">{{$value.user.username}}</a>
 							<span class="comma">，</span>
 							<span>{{$value.user.simpleDesc}}</span>
 						</div>

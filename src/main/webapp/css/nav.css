@@ -1,25 +1,28 @@
-﻿/*导航条部分*/
+﻿@font-face{
+    font-family: 'hanyizhuzimutouren';
+    src : url('../fonts/hanyizhuzimutouren.ttf');
+}
+
+/*导航条部分*/
 .nav{
-	height: 45px;
-	background: linear-gradient(to bottom,#086ed5,#055db5);
-	border-bottom: 1px solid #044e97;
-	margin-bottom: 25px;
-	margin-top: -21px;
+	height: 54px;
+	border-bottom: 1px solid rgba(30,35,42,.06);
+    box-shadow: 0 1px 3px 0 rgba(0,34,77,.05);
+    margin-bottom: 14px;
 }
 
 .nav-wrap{
 	width: 960px;
-	height: 45px;
+	height: 50px;
 	margin: 0 auto;
 }
 
 /*logo部分*/
 .logo{
 	float: left;
-	text-decoration: none;
-	font-size: 29px;
-	color: white;
-	line-height: 45px;
+	font-size: 38px;
+	font-family: 'hanyizhuzimutouren';
+	color: #0F88EB;
 }
 
 
@@ -28,22 +31,19 @@
 	float: left;
 	position: relative;
 	width: 367px;
-	color: rgb(34, 34, 34);
+	color: #B2BED2;
 	font-size: 13px;
-	line-height: 22.1px;
-	margin: 7px 0 0 12px;
+	margin: 5px 0 0 12px;
 }
 
-.search-input{
-	width: 305px;
-	padding: 7px 50px 7px 10px;
-	color: #49525c;
-	font-size: 14px;
-	line-height: 17px;
-	background-color: #e1eaf2;
-	border: 1px solid #045bb2;
-	border-radius: 4px;
-	box-shadow: inset 0 1px 3px rgba(0,0,0,.2),0 1px 0 rgba(255,255,255,.1);
+.nav .search-area input{
+	float: left;
+	width: 314px;
+	height: 34px;
+	padding-left: 10px;
+	background-color: #F7F8FA;
+	border: 1px solid #e7eaf1;
+    border-radius: 3px;
 }
 
 .search-input::placeholder{
@@ -51,43 +51,37 @@
 }
 
 .search-button{
-	position: absolute;
-	top: 0;
-	right: 0;
+	position: relative;
+	left: -42px;
 	width: 40px;
-	height: 33px;
-	background: #0e78e7;
-	border: 1px solid #045bb2;
-	border-top-right-radius: 4px;
-	border-bottom-right-radius: 4px;
-	box-shadow: 0 1px 2px rgba(0,0,0,.05),inset 0 1px 1px rgba(255,255,255,.15);
-	box-sizing: border-box;
+	height: 34px;
+	background-color: #F7F8FA;
 	cursor: pointer;
-	color: white;
-	font-size: 14px;
+	color: #8590A6;
+	margin-top: 1px;
+	margin-bottom: 1px;
 }
 
 /*顶部导航条部分*/
 .top-nav{
 	float: left;
 	position: relative;
-	margin-left: 18px;
+	margin-left: 20px;
 }
 
 .top-nav ul li{
 	float: left;
+	margin-top: 4px;
 }
 
 .top-nav ul li a{
 	width: 54px;
     height: 45px;
-    line-height: 45px;
+    line-height: 40px;
     text-align: center;
     display: block;
-    color: #f2f4f5;
-    text-shadow: 0 1px 1px rgba(0,0,0,.12);
-    font-size: 15px;
-	color: #eee;
+    color: #788295;
+    font-size: 17px;
 }
 
 
@@ -113,7 +107,7 @@
 /*顶部导航条右侧*/
 .nav-profile{
 	float: right;
-	width: 120px;
+	width: 136px;
 	height: 45px;
 	margin-left: 20px;
 	line-height: 42px;
@@ -122,22 +116,21 @@
 .nav-profile a.profile-link{
 	display: block;
 	padding: 0 10px;
-	width: 130px;
+	width: 200px;
 	height: 45px;
-	color: white;
+	color: #6C6C6C;
 }
 
 .nav-profile a.profile-link:hover{
 	display: block;
-	background-color: #095fb3;
+	background-color: #FFFFFF;
 }
 
 .nav-profile a.profile-link img{
-	width: 26px;
-	height: 26px;
-	border-radius: 3px;
-	border: 1px solid rgba(0,0,0,.1);
-	margin-right: 8px;
+	width: 32px;
+	height: 32px;
+    border-radius: 50px;
+	margin-right: 5px;
 	position: relative;
     top: 8px;
 }
@@ -145,38 +138,31 @@
 .nav-profile ul.nav-dropdown{
 	display: none;
 	position: relative;
-	z-index: 10;
-	border: 1px solid #095fb3;
-    border-bottom: none;
-	border-bottom-left-radius: 3px;
-	border-top-right-radius: 3px;
+	border: 1px solid #BFBFBF;
+	border-radius: 8px;
 }
 
 .nav-profile ul.nav-dropdown li a{
 	display: block;
-	width: 118px;
+	width: 100px;
 	height: 39px;
 	padding: 0 17px;
-	border-bottom: 1px solid #085bac;
-	color: white;
-	background-color: #095fb3;
+	color: #333333;
 }
 
 .nav-profile ul.nav-dropdown li a:hover{
-	background-color: #0267cc;
+	background-color: #D2DFF5;
 }
 
 
 .ask-question{
-    float: right;
-    width: 66px;
-    height: 32px;
-    line-height: 30px;
-    margin-top: 7px;
-    border: 1px solid #045bb2;
+    float: left;
+    width: 50px;
+    height: 34px;
+    margin-top: 5px;
+    border: 1px solid #1E86DB;
     border-radius: 4px;
-    background: linear-gradient(to bottom,#0e7bef,#0d73da);
-    box-shadow: 0 1px 2px rgba(0,0,0,.05), inset 0 1px 1px rgba(255,255,255,.15);
+    background-color: #2995ED;
     color: #fff;
     font-size: 14px;
     text-align: center;
@@ -188,17 +174,20 @@
 
 .sprite-search{
 	display: inline-block;
-	background-image: url(../image/sprites.auto.2bb79a7e.png);
-    background-position: -82px 0;
-    width: 15px;
-    height: 15px;
-    vertical-align: -2px;
+	background-image: url(../image/search.png);
+	background-repeat:no-repeat; 
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
+    width: 20px;
+    height: 20px;
 }
 
 .sprite-nav-profile{
     display: inline-block;
-    background-image: url(../image/sprites-1.9.2.4c54885a.png);
-    background-position: -6px -7px;;
+    background-image: url(../image/man.png);
+	background-repeat:no-repeat; 
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
     width: 20px;
     height: 20px;
     vertical-align: -7px;
@@ -206,24 +195,30 @@
 
 .sprite-nav-letter{
     display: inline-block;
-    background-image: url(../image/sprites-1.9.2.4c54885a.png);
-    background-position: -6px -34px;
+    background-image: url(../image/search.png);
+	background-repeat:no-repeat; 
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
     width: 20px;
     height: 20px;
     vertical-align: -7px;
 }
 .sprite-nav-setting{
     display: inline-block;
-    background-image: url(../image/sprites-1.9.2.4c54885a.png);
-    background-position: -6px -60px;
+    background-image: url(../image/setting.png);
+	background-repeat:no-repeat; 
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
     width: 20px;
     height: 20px;
     vertical-align: -7px;
 }
 .sprite-nav-logout{
     display: inline-block;
-    background-image: url(../image/sprites-1.9.2.4c54885a.png);
-    background-position: -6px -87px;
+    background-image: url(../image/logout.png);
+	background-repeat:no-repeat; 
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
     width: 20px;
     height: 20px;
     vertical-align: -7px;

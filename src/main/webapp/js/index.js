@@ -1,26 +1,16 @@
 $(function() {
-
 	window.page = 1;
-
-	// feed流中，移入移出的处理
-	var feedMeta = $(".feed-meta");
-	feedMeta.mouseover(function() {
-		$(this).find("div").css("display", "inline").show();
-	}).mouseout(function() {
-		$(this).find("div").hide();
-	});
-
 	template.defaults.imports.$longToDateString = longToDateString;
 
 	getIndexDetail(window.page);
 
 	window.onscroll = function() {
-		
+
 		if (getScrollTop() + 1 >= $(document).height() - $(window).height()) {
 			setTimeout(function() {
 				getIndexDetail(window.page);
 			}, 200);
-			
+
 		}
 	}
 
@@ -48,6 +38,5 @@ $(function() {
 		});
 		window.page++;
 	}
-
 
 });

@@ -2,21 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yongheng.wenfou.dao.UserMapper">
 
-	<resultMap type="User" id="UserMap">
-		<id column="user_id" property="userId"/>
-		<result column="avatar_url" property="avatarUrl"/>
-		<result column="activation_state" property="activationState"/>
-		<result column="simple_desc" property="simpleDesc"/>
-		<result column="full_desc" property="fullDesc"/>
-		<result column="liked_count" property="likedCount"/>
-		<result column="collected_count" property="collectedCount"/>
-		<result column="follow_count" property="followCount"/>
-		<result column="followed_count" property="followedCount"/>
-		<result column="scaned_count" property="scanedCount"/>
-		<result column="join_time" property="joinTime"/>
-	
-	</resultMap>
-
 	<insert id="insertUser">
 		<selectKey resultType="int" order="AFTER" keyProperty="userId">
 			select last_insert_id() as userId
@@ -36,34 +21,39 @@
 	</insert>
 
 	<select id="selectEmailCount" resultType="int">
-		select count(*) from user where email = #{email}
+		select count(*) from
+		user where email = #{email}
 	</select>
 
 	<select id="selectUserIdByEmailAndPassword" resultType="int">
-		select user_id from user where email = #{email} and password = #{password}
+		select
+		user_id from user where email = #{email} and password = #{password}
 	</select>
 
-	<select id="selectUserInfoByUserId" resultMap="UserMap">
-		select user_id,username,avatar_url,simple_desc from user where user_id =
+	<select id="selectUserInfoByUserId" resultType="User">
+		select
+		user_id,username,avatar_url,simple_desc from user where user_id =
 		#{userId}
 	</select>
 
 	<select id="selectActivationStateByUserId" resultType="int">
-		select activation_state from user where user_id = #{userId}
+		select
+		activation_state from user where user_id = #{userId}
 	</select>
 
 	<update id="updateActivationStateByActivationCode">
-		update user set activation_state = 1 where activation_code =
+		update user set activation_state = 1 where
+		activation_code =
 		#{activationCode}
 	</update>
 
-	<select id="selectProfileInfoByUserId" resultMap="UserMap">
+	<select id="selectProfileInfoByUserId" resultType="User">
 		select
 		user_id,username,avatar_url,gender,simple_desc,position,industry,career,education,full_desc,liked_count,collected_count,follow_count,followed_count,scaned_count
 		from user where user_id = #{userId}
 	</select>
 
-	<select id="listUserInfoByUserId" resultMap="UserMap">
+	<select id="listUserInfoByUserId" resultType="User">
 		select user_id,username,avatar_url,simple_desc from user
 		<where>
 			user_id in
@@ -76,12 +66,14 @@
 
 	<update id="updateLikedCountByAnswerId">
 		update user set liked_count = liked_count + 1
-		where user_id = (select user_id from answer where answer_id = #{answerId})
+		where
+		user_id = (select user_id from answer where answer_id = #{answerId})
 	</update>
 
 	<update id="updateCollectedCountByAnswerId">
 		update user set collected_count = collected_count + 1
-		where user_id = (select user_id from answer where answer_id = #{answerId})
+		where user_id = (select user_id from answer where answer_id =
+		#{answerId})
 	</update>
 
 	<update id="updateProfile">
@@ -93,21 +85,25 @@
 
 	<select id="selectUserCountByUserIdAndPassword" resultType="int">
 		select count(*) from user
-		where user_id = #{userId} and password = #{password}
+		where user_id = #{userId} and password =
+		#{password}
 	</select>
 
 	<update id="updatePassword">
 		update user set password = #{newpassword}
-		where user_id = #{userId}
+		where
+		user_id = #{userId}
 	</update>
 
 	<update id="updateAvatarUrl">
 		update user set avatar_url = #{avatarUrl}
-		where user_id= #{userId}
+		where
+		user_id= #{userId}
 	</update>
 
 	<select id="selectUsernameByUserId" resultType="string">
-		select username from user
+		select username
+		from user
 		where user_id = #{userId}
 	</select>
 

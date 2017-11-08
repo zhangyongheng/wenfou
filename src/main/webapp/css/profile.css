@@ -70,7 +70,6 @@
 .profile-header .profile-info .profile-avatar img{
 	width: 140px;
 	height: 140px;
-	border-radius: 100px;
 }
 
 .profile-header .profile-info .two-button{
@@ -825,7 +824,7 @@
 	color: #404040;
 }
 .answer-tab .answer-list ul li .answer-title a{
-	font-size: 20px;
+	font-size: 16px;
 	line-height: 26px;
 	font-weight: 500;
 	color: #404040;
@@ -833,20 +832,21 @@
 
 .answer-tab .answer-list ul li .answer-meta{
 	position: relative;
+	margin-top: 4px;
 }
 
 .answer-tab .answer-list ul li .answer-meta img{
 	position: absolute;
-	top: 12px;
+	top: 8px;
     left: 0;
 	width: 38px;
 	height: 38px;
-	border-radius: 2px;
+	border-radius: 50px;
 }
 
 .answer-tab .answer-list ul li .answer-meta h4{
 	padding-left: 52px;
-	padding-top: 12px;
+	padding-top: 8px;
     font-size: 15px;
     font-weight: 600;
     line-height: 1.1;
@@ -854,9 +854,9 @@
 
 .answer-tab .answer-list ul li .answer-meta h5{
 	padding-left: 52px;
-	margin-bottom: 16px;
-	margin-top: 26px;
-    font-size: 14px;
+	padding-bottom: 8px;
+	margin-top: 8px;
+    font-size: 13px;
     line-height: 1.2;
 }
 

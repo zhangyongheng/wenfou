@@ -19,7 +19,7 @@
     border-radius: 8px;
     width: 550px;
     height: 420px;
-    background-color: #fff;
+    background-color: #FFFFFF;
     top: 50%;
     left: 50%;
     margin-top: -210px;
@@ -31,12 +31,11 @@
     border-radius: 8px 8px 0 0;
     padding: 10px 20px;
     line-height: 14px;
-    background: linear-gradient(to bottom,#1D7FE2,#0865C2);
+    background: #FFFFFF;
 }
 
 .upon-mask h3 span:first-child{
-    color: #fff;
-    text-shadow: 0 1px 1px rgba(0,0,0,.4);
+    color: #0F88EB;
     font-size: 15px;
     font-weight: 700;
 }
@@ -70,10 +69,9 @@
     padding: 8px 10px;
     font-size: 13px;
     line-height: 15px;
-    box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
     border-radius: 3px;
     background: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid #DADADA;
     color: #222;
     margin: 10px 0;
 }
@@ -86,11 +84,7 @@
 .upon-mask button{
     float: right;
     color: #fff;
-    text-shadow: 0 -1px 0 rgba(0,0,0,.5);
-    background: #1472cf;
-    background: -webkit-linear-gradient(top,#1d7fe2,#0865c2);
-    background: linear-gradient(to bottom,#1d7fe2,#0865c2);
-    border: 1px solid #0D6EB8;
+    background: #2995ED;
     box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 1px 0 rgba(0,0,0,.2);
     font-size: 14px;
     line-height: 1.7;
