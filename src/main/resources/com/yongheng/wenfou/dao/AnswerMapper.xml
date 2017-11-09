@@ -104,8 +104,8 @@
 		limit #{offset},#{limit}
 	</select>
 
-	<update id="updateLikedCount">
-		update answer set liked_count = liked_count + 1
+	<update id="updateLikedCount" parameterType="map">
+		update answer set liked_count = #{likedCount}
 		where answer_id = #{answerId}
 	</update>
 
@@ -142,6 +142,11 @@
 		select user_id from answer
 		where answer_id = #{answerId}
 	</select>
+	
+	<select id="selectLikedCountByAnswerId" resultType="int">
+		select liked_count from answer where answer_id = #{answerId}
+	</select>
+	
 </mapper>
 
 

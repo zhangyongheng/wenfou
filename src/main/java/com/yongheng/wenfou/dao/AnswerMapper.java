@@ -25,12 +25,14 @@ public interface AnswerMapper {
 
 	int selectAnswerCountByQuestionId(@Param("questionId") Integer questionId);
 
-	void updateLikedCount(@Param("answerId") Integer answerId);
+	void updateLikedCount(Map<String, Object> map);
 
 	List<Answer> listAnswerByUserIdList(Map<String, Object> map);
 
 	List<Answer> listAnswerByCreateTime(@Param("createTime") long createTime);
 
 	Integer selectUserIdByAnswerId(@Param("answerId") Integer answerId);
+	
+	Integer selectLikedCountByAnswerId(@Param("answerId") Integer answerId);
 
 }

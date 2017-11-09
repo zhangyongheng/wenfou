@@ -1,8 +1,5 @@
 package com.yongheng.wenfou.po;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class User {
 	private Integer userId;
 	private String email;

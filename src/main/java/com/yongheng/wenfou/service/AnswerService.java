@@ -6,18 +6,20 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yongheng.wenfou.dao.AnswerMapper;
 import com.yongheng.wenfou.po.Answer;
 import com.yongheng.wenfou.po.PageBean;
 
 @Service
+@Transactional
 public class AnswerService {
 
 	@Autowired
 	private AnswerMapper answerMapper;
 
-
+	@Transactional(readOnly = true)
 	public PageBean<Answer> listAnswerByUserId(Integer userId, Integer curPage) {
 
 		// 当请求页数为空时
@@ -49,6 +51,26 @@ public class AnswerService {
 		pageBean.setList(answerList);
 
 		return pageBean;
+	}
+
+	// 点赞答案
+	public void likeAnswer(Integer userId, Integer answerId) {
+		Integer likedCount = answerMapper.selectLikedCountByAnswerId(answerId);
+		// 更新答案被点赞数量
+		Map<String, Object> map = new HashMap<>();
+		map.put("likedCount", ++likedCount);
+		answerMapper.updateLikedCount(map);
+
+	}
+
+	// 取消点赞
+	public void unLikeAnswer(Integer userId, Integer answerId) {
+		Integer likedCount = answerMapper.selectLikedCountByAnswerId(answerId);
+		// 更新答案被点赞数量
+		Map<String, Object> map = new HashMap<>();
+		map.put("likedCount", --likedCount);
+		answerMapper.updateLikedCount(map);
+
 	}
 
 }

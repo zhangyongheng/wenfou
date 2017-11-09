@@ -70,33 +70,57 @@ $(function() {
 			$(this).find("i").removeClass("like-unclicked-i");
 			$(this).addClass("like-clicked")
 			$(this).find("i").addClass("like-clicked-i");
-			$(this).attr("disabled", "true");
 		}
 	});
 
 	voteUp.click(function() {
-		$(this).removeClass("like-unclicked")
-		$(this).find("i").removeClass("like-unclicked-i");
-		$(this).addClass("like-clicked")
-		$(this).find("i").addClass("like-clicked-i");
+		if ($(this).attr("clicked") == "false") {
+			$(this).removeClass("like-unclicked")
+			$(this).find("i").removeClass("like-unclicked-i");
+			$(this).addClass("like-clicked")
+			$(this).find("i").addClass("like-clicked-i");
 
-		$(this).attr("clicked", "true");
-		$(this).attr("disabled", "true");
-		// 发送请求
-		var formData = new FormData();
-		formData.append("answerId", $(this).attr("answer-id"));
-		var that = $(this);
-		$.ajax({
-			url : basepath + "likeAnswer",
-			type : "post",
-			data : formData,
-			processData : false,
-			contentType : false,
-			success : function(response) {
-				that.html(parseInt(that.text()) + 1 + "");
-				that.append("<i class='like-clicked-i'></i>");
-			}
-		});
+			$(this).attr("clicked", "true");
+			// 发送请求
+			var formData = new FormData();
+			formData.append("answerId", $(this).attr("answer-id"));
+			var that = $(this);
+			$.ajax({
+				url : basepath + "likeAnswer",
+				type : "post",
+				data : formData,
+				processData : false,
+				contentType : false,
+				success : function(response) {
+					that.html(parseInt(that.text()) + 1 + "");
+					that.append("<i class='like-clicked-i'></i>");
+				}
+			});
+			
+
+		} else if ($(this).attr("clicked") == "true"){
+			$(this).removeClass("like-clicked")
+			$(this).find("i").removeClass("like-clicked-i");
+			$(this).addClass("like-unclicked")
+			$(this).find("i").addClass("llike-unclicked-i");
+
+			$(this).attr("clicked", "false");
+			// 发送请求
+			var formData = new FormData();
+			formData.append("answerId", $(this).attr("answer-id"));
+			var that = $(this);
+			$.ajax({
+				url : basepath + "unLikeAnswer",
+				type : "post",
+				data : formData,
+				processData : false,
+				contentType : false,
+				success : function(response) {
+					that.html(parseInt(that.text()) - 1 + "");
+					that.append("<i class='like-unclicked-i'></i>");
+				}
+			});
+		}
 
 	}).mouseover(function() {
 		if ($(this).attr("clicked") == "false") {

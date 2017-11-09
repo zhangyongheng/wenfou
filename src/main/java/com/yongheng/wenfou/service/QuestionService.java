@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.yongheng.wenfou.dao.AnswerMapper;
@@ -19,6 +20,7 @@ import com.yongheng.wenfou.po.Question;
 import com.yongheng.wenfou.po.User;
 
 @Service
+@Transactional
 public class QuestionService {
 
 	@Autowired
@@ -32,6 +34,7 @@ public class QuestionService {
 
 
 	// 获得问题页详情
+	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> getQuestionDetail(Integer questionId) {
 		Map<String, Object> map = new HashMap<>();
@@ -78,6 +81,7 @@ public class QuestionService {
 		return map;
 	}
 
+	@Transactional(readOnly = true)
 	public PageBean<Question> listQuestionByUserId(Integer userId, Integer curPage) {
 		// 当请求页数为空时
 		curPage = curPage == null ? 1 : curPage;

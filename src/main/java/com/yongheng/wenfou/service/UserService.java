@@ -15,15 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yongheng.wenfou.dao.AnswerMapper;
 import com.yongheng.wenfou.dao.CommentMapper;
+import com.yongheng.wenfou.dao.UserFollowMapper;
 import com.yongheng.wenfou.dao.UserMapper;
 import com.yongheng.wenfou.po.Answer;
 import com.yongheng.wenfou.po.User;
+import com.yongheng.wenfou.po.UserFollow;
 import com.yongheng.wenfou.util.MyUtil;
 
 @Service
+@Transactional
 public class UserService {
 
 	@Autowired
@@ -34,6 +38,9 @@ public class UserService {
 
 	@Autowired
 	private CommentMapper commentMapper;
+
+	@Autowired
+	private UserFollowMapper userFollowMapper;
 
 	/* 注册 */
 	public Map<String, String> register(String username, String email, String password) {
@@ -84,6 +91,7 @@ public class UserService {
 	}
 
 	/* 登录 */
+	@Transactional(readOnly = true)
 	public Map<String, Object> login(String email, String password, HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<>();
 
@@ -139,6 +147,7 @@ public class UserService {
 		return loginToken;
 	}
 
+	@Transactional(readOnly = true)
 	public User getProfileInfo(Integer userId) {
 		User user = userMapper.selectProfileInfoByUserId(userId);
 		return user;
@@ -165,12 +174,14 @@ public class UserService {
 
 	}
 
+	@Transactional(readOnly = true)
 	public Map<String, Object> getIndexDetail(Integer userId, Integer curPage) {
 		Map<String, Object> map = new HashMap<>();
-
 		List<Integer> idList = new ArrayList<>();
-		idList.add(3);
-		idList.add(4);
+		List<UserFollow> userFollowList = userFollowMapper.listUserFollowByUserId(userId);
+		for (UserFollow userFollow : userFollowList) {
+			idList.add(userFollow.getFollowUser());
+		}
 		List<Answer> answerList = new ArrayList<Answer>();
 		if (idList.size() > 0) {
 			answerList = _getIndexDetail(idList, curPage);
@@ -180,6 +191,7 @@ public class UserService {
 		return map;
 	}
 
+	@Transactional(readOnly = true)
 	private List<Answer> _getIndexDetail(List<Integer> idList, Integer curPage) {
 
 		// 当请求页数为空时
@@ -201,11 +213,12 @@ public class UserService {
 
 		return answerList;
 	}
-	
+
+	@Transactional(readOnly = true)
 	public Map<String, Object> profile(Integer userId) {
 		Map<String, Object> map = new HashMap<>();
 		User user = userMapper.selectProfileInfoByUserId(userId);
-		
+
 		map.put("user", user);
 		return map;
 	}
