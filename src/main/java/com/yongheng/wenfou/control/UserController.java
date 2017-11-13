@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yongheng.wenfou.dto.PageBean;
+import com.yongheng.wenfou.dto.Response;
 import com.yongheng.wenfou.po.Answer;
-import com.yongheng.wenfou.po.PageBean;
 import com.yongheng.wenfou.service.AnswerService;
 import com.yongheng.wenfou.service.UserService;
-import com.yongheng.wenfou.util.Response;
 
 @Controller
 @RequestMapping("/")

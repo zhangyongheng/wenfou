@@ -1,4 +1,4 @@
-package com.yongheng.wenfou.util;
+package com.yongheng.wenfou.dto;
 
 public class Response {
     private int state;

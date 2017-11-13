@@ -1,4 +1,4 @@
-package com.yongheng.wenfou.po;
+package com.yongheng.wenfou.dto;
 
 import java.util.ArrayList;
 import java.util.List;

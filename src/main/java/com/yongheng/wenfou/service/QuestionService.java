@@ -13,9 +13,9 @@ import com.yongheng.wenfou.dao.AnswerMapper;
 import com.yongheng.wenfou.dao.CommentMapper;
 import com.yongheng.wenfou.dao.QuestionMapper;
 import com.yongheng.wenfou.dao.UserMapper;
+import com.yongheng.wenfou.dto.PageBean;
 import com.yongheng.wenfou.po.Answer;
 import com.yongheng.wenfou.po.AnswerComment;
-import com.yongheng.wenfou.po.PageBean;
 import com.yongheng.wenfou.po.Question;
 import com.yongheng.wenfou.po.User;
 

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yongheng.wenfou.dao.AnswerMapper;
+import com.yongheng.wenfou.dto.PageBean;
 import com.yongheng.wenfou.po.Answer;
-import com.yongheng.wenfou.po.PageBean;
 
 @Service
 @Transactional
