@@ -1,4 +1,4 @@
-package com.yongheng.wenfou.control;
+package com.yongheng.wenfou.controller;
 
 import java.util.Map;
 
