@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yongheng.wenfou.service.QuestionService;
 
-
 @Controller
 @RequestMapping("/")
 public class QuestionController {
