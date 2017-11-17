@@ -1,23 +1,30 @@
 var basepath = $("#baseUrl").attr("href");
 
 $(function() {
-	moveSomeHeight();
-
 	var isSelf = $("#isSelf").attr("data-id");
-	var userId;
+	var userId = localStorage.userId;
+	var peopleId = $("#userId").attr("data-id");
 	var followButton = $("#followUserButton");
 	var unfollowButton = $("#unfollowUserButton");
+	var settingButton = $("#settingButton");
 
 	if (isSelf == 'false') {
+		settingButton.hide();
+		followButton.show();
+		unfollowButton.show();
 		init();
 		bindEvent();
+	} else {
+		settingButton.css("display", "block");
+		followButton.hide();
+		unfollowButton.hide();
 	}
 
 	function init() {
 		var flag;
-		userId = $("#userId").attr("data-id");
 		var formData = new FormData();
 		formData.append("userId", userId);
+		formData.append("peopleId", peopleId);
 		$.ajax({
 			url : basepath + "judgePeopleFollowUser",
 			type : "post",
@@ -58,6 +65,7 @@ $(function() {
 	function followUser(userId) {
 		var formData = new FormData();
 		formData.append("userId", userId);
+		formData.append("peopleId", peopleId);
 		$.ajax({
 			url : basepath + "followUser",
 			type : "post",
@@ -72,6 +80,7 @@ $(function() {
 	function unfollowUser(userId) {
 		var formData = new FormData();
 		formData.append("userId", userId);
+		formData.append("peopleId", peopleId);
 		$.ajax({
 			url : basepath + "unfollowUser",
 			type : "post",
@@ -81,12 +90,6 @@ $(function() {
 			success : function(response) {
 			}
 		});
-	}
-
-	function moveSomeHeight() {
-		window.scrollTo(0, document.querySelector("#content").offsetTop);
-		$(".profile").attr("href", basepath + "profile/" + localStorage.userId);
-		$(".profile-avatar").attr("src", localStorage.avatarUrl);
 	}
 
 });

@@ -16,8 +16,8 @@
 			<div class="profile-avatar">
 				<img src="${user.avatarUrl}">
 			</div>
-			<div class="two-button" id="isSelf" >
-				<a href="${base}/setting" class="follow-button">编辑信息</a>
+			<div class="two-button" id="isSelf" data-id="${isSelf}">
+				<a href="${base}/setting" id="settingButton" class="follow-button">编辑信息</a>
 				<button id="followUserButton" class="follow-button">关注</button>
 				<button id="unfollowUserButton" class="unfollow-button">取消关注</button>
 			</div>

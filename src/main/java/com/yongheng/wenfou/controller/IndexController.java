@@ -5,13 +5,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yongheng.wenfou.dto.Response;
 import com.yongheng.wenfou.service.UserService;
 
-@RestController
+@Controller
 @RequestMapping("/")
 public class IndexController {
 
@@ -24,6 +25,7 @@ public class IndexController {
 	}
 
 	@RequestMapping("getIndexDetail")
+	@ResponseBody
 	public Response getIndexDetail(Integer page, Integer userId, HttpServletRequest request) {
 		Map<String, Object> map = userService.getIndexDetail(userId, page);
 

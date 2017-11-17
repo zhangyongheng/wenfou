@@ -6,6 +6,10 @@
 		select * from user_follow where user_id = #{userId}
 	</select>
 
+	<insert id="addUserFollow">
+		insert into user_follow values (#{userId}, #{followUserId})
+	</insert>
+
 </mapper>
 
 

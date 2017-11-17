@@ -85,6 +85,7 @@
 	text-align: center;
 	border-radius: 3px;
 	cursor: pointer;
+	display: none;
 }
 
 .profile-header .profile-info .two-button .follow-button {
@@ -100,7 +101,7 @@
 	text-align: center;
 	border-radius: 3px;
 	cursor: pointer;
-	display: block;
+	display: none;
 }
 
 .profile-header .profile-info .two-button .private-message-button {

@@ -223,4 +223,25 @@ public class UserService {
 		return map;
 	}
 
+	/**
+	 * 判断用户是否关注了某用户
+	 * @param userId
+	 * @param peopleId 要判断是否被关注的用户ID
+	 * @return
+	 */
+	public Boolean judgePeopleFollowUser(Integer userId, Integer peopleId) {
+		List<UserFollow> userFollowList = userFollowMapper.listUserFollowByUserId(userId);
+		for (UserFollow userfollow : userFollowList) {
+			if (userfollow.getFollowUser() == peopleId) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Integer followUser(Integer userId, Integer peopleId) {
+		
+		return userFollowMapper.addUserFollow(userId, peopleId);
+	}
+
 }
