@@ -1,5 +1,6 @@
 package com.yongheng.wenfou.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yongheng.wenfou.dao.AnswerMapper;
 import com.yongheng.wenfou.dto.PageBean;
 import com.yongheng.wenfou.po.Answer;
+import com.yongheng.wenfou.util.RedisKey;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 @Service
 @Transactional
@@ -18,6 +23,9 @@ public class AnswerService {
 
 	@Autowired
 	private AnswerMapper answerMapper;
+
+	@Autowired
+	private JedisPool jedisPool;
 
 	@Transactional(readOnly = true)
 	public PageBean<Answer> listAnswerByUserId(Integer userId, Integer curPage) {
@@ -59,8 +67,13 @@ public class AnswerService {
 		// 更新答案被点赞数量
 		Map<String, Object> map = new HashMap<>();
 		map.put("likedCount", ++likedCount);
+		map.put("answerId", answerId);
 		answerMapper.updateLikedCount(map);
-
+		//Redis中记录点赞用户
+		Jedis jedis = jedisPool.getResource();
+		jedis.zadd(answerId + RedisKey.LIKED_ANSWER, new Date().getTime(), String.valueOf(userId));
+		jedis.close();
+		jedis = null;
 	}
 
 	// 取消点赞
@@ -69,8 +82,13 @@ public class AnswerService {
 		// 更新答案被点赞数量
 		Map<String, Object> map = new HashMap<>();
 		map.put("likedCount", --likedCount);
+		map.put("answerId", answerId);
 		answerMapper.updateLikedCount(map);
-
+		//Redis中删除点赞用户
+		Jedis jedis = jedisPool.getResource();
+		jedis.zrem(answerId + RedisKey.LIKED_ANSWER, String.valueOf(userId));
+		jedis.close();
+		jedis = null;
 	}
 
 }

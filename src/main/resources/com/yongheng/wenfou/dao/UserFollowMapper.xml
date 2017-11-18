@@ -9,6 +9,10 @@
 	<insert id="addUserFollow">
 		insert into user_follow values (#{userId}, #{followUserId})
 	</insert>
+	
+	<delete id="removeUserFollow">
+		delete from user_follow where user_id = #{userId} and follow_user = #{followUserId}
+	</delete>
 
 </mapper>
 

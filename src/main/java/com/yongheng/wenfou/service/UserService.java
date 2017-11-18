@@ -26,6 +26,9 @@ import com.yongheng.wenfou.po.User;
 import com.yongheng.wenfou.po.UserFollow;
 import com.yongheng.wenfou.util.MyUtil;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
 @Service
 @Transactional
 public class UserService {
@@ -41,6 +44,9 @@ public class UserService {
 
 	@Autowired
 	private UserFollowMapper userFollowMapper;
+
+	@Autowired
+	private JedisPool jedisPool;
 
 	/* 注册 */
 	public Map<String, String> register(String username, String email, String password) {
@@ -115,6 +121,11 @@ public class UserService {
 		cookie.setPath("/");
 		cookie.setMaxAge(60 * 60 * 24 * 30);
 		response.addCookie(cookie);
+		
+		Jedis jedis = jedisPool.getResource();
+		jedis.set(loginToken, userId.toString(), "NX", "EX", 60 * 60 * 24 * 30);
+		jedis.close();
+		jedis = null;
 
 		// 将用户信息返回，存入localStorage
 		User user = userMapper.selectUserInfoByUserId(userId);
@@ -138,11 +149,15 @@ public class UserService {
 				break;
 			}
 		}
-
 		Cookie cookie = new Cookie("loginToken", "");
 		cookie.setPath("/");
 		cookie.setMaxAge(60 * 60 * 24 * 30);
 		response.addCookie(cookie);
+		
+		Jedis jedis = jedisPool.getResource();
+		jedis.del(loginToken);
+		jedis.close();
+		jedis = null;
 
 		return loginToken;
 	}
@@ -225,8 +240,10 @@ public class UserService {
 
 	/**
 	 * 判断用户是否关注了某用户
+	 * 
 	 * @param userId
-	 * @param peopleId 要判断是否被关注的用户ID
+	 * @param peopleId
+	 *            要判断是否被关注的用户ID
 	 * @return
 	 */
 	public Boolean judgePeopleFollowUser(Integer userId, Integer peopleId) {
@@ -238,10 +255,47 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
 	public Integer followUser(Integer userId, Integer peopleId) {
-		
+
 		return userFollowMapper.addUserFollow(userId, peopleId);
 	}
 
+	public Integer unfollowUser(Integer userId, Integer peopleId) {
+
+		return userFollowMapper.removeUserFollow(userId, peopleId);
+	}
+
+	public Integer getUserIdFromRedis(HttpServletRequest request) {
+		String loginToken = null;
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("loginToken")) {
+				loginToken = cookie.getValue();
+				break;
+			}
+		}
+
+		Jedis jedis = jedisPool.getResource();
+		String userId = jedis.get(loginToken);
+		jedis.close();
+		jedis = null;
+
+		return Integer.parseInt(userId);
+	}
+	
+	public boolean judgeUserIsSelf(Integer userId, HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("loginToken")){
+				String loginToken = cookie.getValue();
+				String localUserId = jedisPool.getResource().get(loginToken);
+				if (localUserId != null) {
+					return localUserId.equals(String.valueOf(userId));
+				}
+			}
+		}
+		return false;
+	}
+	
 }

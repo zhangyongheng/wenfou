@@ -2,7 +2,6 @@ package com.yongheng.wenfou.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,8 +18,6 @@ import com.yongheng.wenfou.po.Answer;
 import com.yongheng.wenfou.service.AnswerService;
 import com.yongheng.wenfou.service.UserService;
 
-import redis.clients.jedis.JedisPool;
-
 @Controller
 @RequestMapping("/")
 public class UserController {
@@ -30,9 +27,6 @@ public class UserController {
 
 	@Autowired
 	private AnswerService answerService;
-	
-	@Autowired
-	private JedisPool jedisPool;
 
 	@RequestMapping("/toLogin")
 	public String toLogin() {
@@ -58,29 +52,19 @@ public class UserController {
 	}
 
 	@RequestMapping("/profile/{userId}")
-	public String profile(@PathVariable Integer userId, Integer page, HttpServletRequest request, Model model) throws Exception {
+	public String profile(@PathVariable Integer userId, Integer page, HttpServletRequest request, Model model)
+			throws Exception {
 		Map<String, Object> map = userService.profile(userId);
 		if (map.get("user") == null) {
 			throw new Exception("该用户不存在");
 		}
+		// 判断用户是否是自己
+		boolean isSelf = userService.judgeUserIsSelf(userId, request);
 		// 获取回答列表
 		PageBean<Answer> pageBean = answerService.listAnswerByUserId(userId, page);
-		//判断用户是否是自己
-		boolean isSelf = false;
-		Cookie[] cookies = request.getCookies();
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals("loginToken")){
-				String loginToken = cookie.getValue();
-				String localUserId = jedisPool.getResource().get(loginToken);
-				if (localUserId != null) {
-					isSelf = localUserId.equals(String.valueOf(userId));
-					break;
-				}
-			}
-		}
-		
-		map.put("pageBean", pageBean);
+
 		map.put("isSelf", String.valueOf(isSelf));
+		map.put("pageBean", pageBean);
 		model.addAllAttributes(map);
 		return "profileAnswer";
 	}
@@ -96,6 +80,13 @@ public class UserController {
 	@ResponseBody
 	public Response followUser(Integer userId, Integer peopleId) {
 		Integer result = userService.followUser(userId, peopleId);
+		return new Response(result);
+	}
+
+	@RequestMapping("/unfollowUser")
+	@ResponseBody
+	public Response unfollowUser(Integer userId, Integer peopleId) {
+		Integer result = userService.unfollowUser(userId, peopleId);
 		return new Response(result);
 	}
 

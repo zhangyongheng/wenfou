@@ -11,5 +11,7 @@ public interface UserFollowMapper {
 	List<UserFollow> listUserFollowByUserId(@Param("userId") Integer userId);
 	
 	Integer addUserFollow(@Param("userId") Integer userId, @Param("followUserId") Integer followUserId);
+	
+	Integer removeUserFollow(@Param("userId") Integer userId, @Param("followUserId") Integer followUserId);
 
 }
