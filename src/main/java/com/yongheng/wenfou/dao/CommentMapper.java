@@ -16,5 +16,7 @@ public interface CommentMapper {
 	void insertAnswerCommentReply(AnswerComment comment);
 
 	int selectAnswerCommentCountByAnswerId(@Param("answerId") Integer answerId);
+	
+	void deleteCommentsByAnswerId(@Param("answerId") Integer answerId);
 
 }

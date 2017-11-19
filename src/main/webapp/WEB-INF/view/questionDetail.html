@@ -45,7 +45,7 @@
 					</div>
 					<div class="answer-meta">
 						<a href="#">&nbsp;发布于 ${answer.createTime?number_to_date}</a>
-						<a href="#" id="expandComment"><span class="glyphicon glyphicon-leaf"></span>${answer.answerCommentList?size} 条评论</a>
+						<a href="#" class="expandComment"><span class="glyphicon glyphicon-leaf"></span>${answer.answerCommentList?size} 条评论</a>
 						<a href="#" data-id="${answer.answerId}" class="toCollectAnswer"><span class="glyphicon glyphicon-bookmark"></span>&nbsp;收藏</a>
 					</div>
 					<div class="votebar">
@@ -154,7 +154,7 @@
 	</div>
 	<#include "mask.html"/>
 
-<script type="text/javascript" src="https://unpkg.com/wangeditor@2.1.23/dist/js/wangEditor.min.js"></script>
+<script type="text/javascript" src="${base}/js/wangEditor.min.js"></script>
 <script type="text/javascript" src="${base}/js/template-web.js"></script>
 <script type="text/javascript" src="${base}/js/nav.js"></script>
 <script type="text/javascript" src="${base}/js/mask.js"></script>

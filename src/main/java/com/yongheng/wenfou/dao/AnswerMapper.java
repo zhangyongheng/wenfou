@@ -34,5 +34,7 @@ public interface AnswerMapper {
 	Integer selectUserIdByAnswerId(@Param("answerId") Integer answerId);
 	
 	Integer selectLikedCountByAnswerId(@Param("answerId") Integer answerId);
-
+	
+	void deleteAnswerByAnswerId(@Param("answerId") Integer answerId);
+	
 }

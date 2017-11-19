@@ -25,7 +25,6 @@
 			resultMap="questionMap" />
 	</resultMap>
 
-
 	<insert id="insertAnswer">
 		<selectKey resultType="int" order="AFTER" keyProperty="answerId">
 			select last_insert_id() as answerId
@@ -35,7 +34,8 @@
 	</insert>
 
 	<select id="selectAnswerByQuestionId" resultType="Answer">
-		select * from answer where question_id = #{questionId}
+		select * from
+		answer where question_id = #{questionId}
 	</select>
 
 	<select id="selectAnswerCountByUserId" resultType="int">
@@ -82,7 +82,8 @@
 	</select>
 
 	<select id="selectAnswerCountByQuestionId" resultType="int">
-		select count(*) from answer
+		select
+		count(*) from answer
 		where question_id = #{questionId}
 	</select>
 
@@ -105,7 +106,8 @@
 	</select>
 
 	<update id="updateLikedCount" parameterType="map">
-		update answer set liked_count = #{likedCount}
+		update answer set
+		liked_count = #{likedCount}
 		where answer_id = #{answerId}
 	</update>
 
@@ -128,7 +130,8 @@
 
 
 	<select id="listAnswerByCreateTime" resultMap="answerMap">
-		select a.answer_id,a.answer_content,a.liked_count,a.create_time,
+		select
+		a.answer_id,a.answer_content,a.liked_count,a.create_time,
 		q.question_id,q.question_title,u.user_id,u.username,u.avatar_url,u.simple_desc
 		from answer a join question q on a.question_id = q.question_id
 		join
@@ -139,14 +142,21 @@
 	</select>
 
 	<select id="selectUserIdByAnswerId" resultType="int">
-		select user_id from answer
+		select user_id
+		from answer
 		where answer_id = #{answerId}
 	</select>
-	
+
 	<select id="selectLikedCountByAnswerId" resultType="int">
-		select liked_count from answer where answer_id = #{answerId}
+		select
+		liked_count from answer where answer_id = #{answerId}
 	</select>
 	
+	<delete id="deleteAnswerByAnswerId">
+		delete from answer
+		where answer_id = #{answerId}
+	</delete>
+
 </mapper>
 
 

@@ -101,7 +101,14 @@
 								</button>
 							</div>
 							<div class="other-action">
-								<a href="${base}/question/${answer.question.questionId}#answer-${answer.answerId}" class="comment"><i class="sprite-comment"></i> 查看评论</a><a href="${base}/question/${answer.question.questionId}#answer-${answer.answerId}" class="collect"><i class="sprite-collect"></i> 收藏</a>
+								<a href="${base}/question/${answer.question.questionId}#answer-${answer.answerId}" class="comment">
+								<i class="sprite-comment"></i> 查看评论</a>
+								<a href="${base}/question/${answer.question.questionId}#answer-${answer.answerId}" class="collect">
+								<i class="sprite-collect"></i> 收藏</a>
+								<#if isSelf == "true">
+								<a href="#" class="delete" data-id="${answer.answerId}">
+								<i class="sprite-deletet"></i> 删除回答</a>
+								</#if>
 							</div>
 						</div>
 						</li>

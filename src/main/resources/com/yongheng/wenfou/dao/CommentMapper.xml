@@ -31,5 +31,10 @@
 		select count(*) from answer_comment
 		where answer_id = #{answerId}
 	</select>
+	
+	<delete id="deleteCommentsByAnswerId">
+		delete from answer_comment
+		where answer_id = #{answerId}
+	</delete>
 
 </mapper>

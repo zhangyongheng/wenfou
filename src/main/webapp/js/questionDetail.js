@@ -1,9 +1,9 @@
 $(function() {
 
-	var questionId;
+	var questionId = $("#questionId").attr("data-id");
 	var followQuestionButton = $("#followQuestionButton");
 	var unfollowQuestionButton = $("#unfollowQuestionButton");
-	var expandComment = $("#expandComment");
+	var expandComment = $(".expandComment");
 
 	bindEvent();
 
@@ -23,10 +23,11 @@ $(function() {
 		});
 
 		expandComment.on("click", function() {
-			if ($(".comment").is(':hidden')) {
-				$(".comment").show();
+			var commentDiv = $(this).parent().siblings(".comment");
+			if (commentDiv.is(':hidden')) {
+				commentDiv.show();
 			} else {
-				$(".comment").hide();
+				commentDiv.hide();
 			}
 			return false;
 		});

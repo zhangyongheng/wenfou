@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yongheng.wenfou.dao.AnswerMapper;
+import com.yongheng.wenfou.dao.CommentMapper;
 import com.yongheng.wenfou.dto.PageBean;
 import com.yongheng.wenfou.po.Answer;
 import com.yongheng.wenfou.util.RedisKey;
@@ -23,6 +24,9 @@ public class AnswerService {
 
 	@Autowired
 	private AnswerMapper answerMapper;
+	
+	@Autowired
+	private CommentMapper commentMapper;
 
 	@Autowired
 	private JedisPool jedisPool;
@@ -69,7 +73,7 @@ public class AnswerService {
 		map.put("likedCount", ++likedCount);
 		map.put("answerId", answerId);
 		answerMapper.updateLikedCount(map);
-		//Redis中记录点赞用户
+		// Redis中记录点赞用户
 		Jedis jedis = jedisPool.getResource();
 		jedis.zadd(answerId + RedisKey.LIKED_ANSWER, new Date().getTime(), String.valueOf(userId));
 		jedis.close();
@@ -84,11 +88,34 @@ public class AnswerService {
 		map.put("likedCount", --likedCount);
 		map.put("answerId", answerId);
 		answerMapper.updateLikedCount(map);
-		//Redis中删除点赞用户
+		// Redis中删除点赞用户
 		Jedis jedis = jedisPool.getResource();
 		jedis.zrem(answerId + RedisKey.LIKED_ANSWER, String.valueOf(userId));
 		jedis.close();
 		jedis = null;
+	}
+
+	public Integer answer(Answer answer, Integer userId) {
+		answer.setUserId(userId);
+		answer.setCreateTime(new Date().getTime());
+		answerMapper.insertAnswer(answer);
+
+		return answer.getAnswerId();
+	}
+	
+	@Transactional(readOnly = true)
+	public Integer getUserIdByAnswerId(Integer answerId) {
+		return answerMapper.selectUserIdByAnswerId(answerId);
+	}
+
+	public void deleteAnswer(Integer answerId) {
+		answerMapper.deleteAnswerByAnswerId(answerId);
+		commentMapper.deleteCommentsByAnswerId(answerId);
+		Jedis jedis = jedisPool.getResource();
+		jedis.del(answerId + RedisKey.LIKED_ANSWER);
+		jedis.close();
+		jedis = null;
+		
 	}
 
 }

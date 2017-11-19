@@ -7,6 +7,7 @@ $(function() {
 	var followButton = $("#followUserButton");
 	var unfollowButton = $("#unfollowUserButton");
 	var settingButton = $("#settingButton");
+	var deleteAnswerOption = $(".delete");
 
 	if (isSelf == 'false') {
 		settingButton.hide();
@@ -18,6 +19,7 @@ $(function() {
 		settingButton.css("display", "block");
 		followButton.hide();
 		unfollowButton.hide();
+		bindEvent2();
 	}
 
 	function init() {
@@ -91,5 +93,31 @@ $(function() {
 			}
 		});
 	}
-
+	
+	function bindEvent2() {
+		deleteAnswerOption.on("click", function() {
+			if (!confirm("确定删除吗？")) {
+				return false;
+			}
+			var answerId = deleteAnswerOption.attr("data-id");
+			var formData = new FormData();
+			formData.append("answerId", answerId);
+			$.ajax({
+				url : basepath + "deleteAnswer",
+				type : "post",
+				data : formData,
+				processData : false,
+				contentType : false,
+				success : function(response) {
+					if (response.state == 0) {
+						window.location.reload();
+					} else {
+						alert("出现错误了~");
+					}
+				}
+			});
+			return false;
+		});
+	}
+	
 });
