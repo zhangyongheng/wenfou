@@ -48,7 +48,7 @@ public class AnswerController {
 	public Response deleteAnswer(Integer answerId, HttpServletRequest request) {
 		Integer answerUserId = answerService.getUserIdByAnswerId(answerId);
 		Integer userId = userService.getUserIdFromRedis(request);
-		if(userId != answerUserId) {
+		if(answerUserId.equals(userId)) {
 			return new Response(-1, "", answerId);
 		}
 		answerService.deleteAnswer(answerId);

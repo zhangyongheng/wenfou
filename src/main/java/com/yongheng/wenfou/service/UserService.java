@@ -1,7 +1,6 @@
 package com.yongheng.wenfou.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,11 @@ import redis.clients.jedis.JedisPool;
 @Service
 @Transactional
 public class UserService {
-
+	
+	public static final String EMAIL_REGEX = "^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\\.[a-zA-Z0-9_-]{2,3}){1,2})$";
+	
+	public static final String PASSWORD_REGEX = "^\\w{6,20}$";
+	
 	@Autowired
 	private UserMapper userMapper;
 
@@ -47,12 +50,11 @@ public class UserService {
 
 	@Autowired
 	private JedisPool jedisPool;
-
-	/* 注册 */
+	
 	public Map<String, String> register(String username, String email, String password) {
 		Map<String, String> map = new HashMap<>();
 		// 校验邮箱格式
-		Pattern p = Pattern.compile("^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\\.[a-zA-Z0-9_-]{2,3}){1,2})$");
+		Pattern p = Pattern.compile(EMAIL_REGEX);
 		Matcher m = p.matcher(email);
 		if (!m.matches()) {
 			map.put("regi-email-error", "请输入正确的邮箱");
@@ -66,7 +68,7 @@ public class UserService {
 		}
 
 		// 校验密码长度
-		p = Pattern.compile("^\\w{6,20}$");
+		p = Pattern.compile(PASSWORD_REGEX);
 		m = p.matcher(password);
 		if (!m.matches()) {
 			map.put("regi-password-error", "密码长度须在6-20个字符");
@@ -85,7 +87,7 @@ public class UserService {
 		// 构造user，设置未激活
 		String activateCode = MyUtil.createRandomCode();
 		user.setActivationCode(activateCode);
-		user.setJoinTime(new Date().getTime());
+		user.setJoinTime(System.currentTimeMillis());
 
 		user.setUsername(username);
 
@@ -96,7 +98,6 @@ public class UserService {
 		return map;
 	}
 
-	/* 登录 */
 	@Transactional(readOnly = true)
 	public Map<String, Object> login(String email, String password, HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<>();
@@ -135,7 +136,6 @@ public class UserService {
 		return map;
 	}
 
-	/* 激活帐号 */
 	public void activate(String activationCode) {
 		userMapper.updateActivationStateByActivationCode(activationCode);
 	}
@@ -144,7 +144,7 @@ public class UserService {
 		String loginToken = null;
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals("loginToken")) {
+			if ("loginToken".equals(cookie.getName())) {
 				loginToken = cookie.getValue();
 				break;
 			}
@@ -199,7 +199,7 @@ public class UserService {
 		}
 		List<Answer> answerList = new ArrayList<Answer>();
 		if (idList.size() > 0) {
-			answerList = _getIndexDetail(idList, curPage);
+			answerList = getIndexDetailReturnAnswerList(idList, curPage);
 		}
 
 		map.put("answerList", answerList);
@@ -207,7 +207,7 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	private List<Answer> _getIndexDetail(List<Integer> idList, Integer curPage) {
+	private List<Answer> getIndexDetailReturnAnswerList(List<Integer> idList, Integer curPage) {
 
 		// 当请求页数为空时
 		curPage = curPage == null ? 1 : curPage;
@@ -270,7 +270,7 @@ public class UserService {
 		String loginToken = null;
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals("loginToken")) {
+			if ("loginToken".equals(cookie.getName())) {
 				loginToken = cookie.getValue();
 				break;
 			}
@@ -287,7 +287,7 @@ public class UserService {
 	public boolean judgeUserIsSelf(Integer userId, HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals("loginToken")){
+			if ("loginToken".equals(cookie.getName())){
 				String loginToken = cookie.getValue();
 				String localUserId = jedisPool.getResource().get(loginToken);
 				if (localUserId != null) {

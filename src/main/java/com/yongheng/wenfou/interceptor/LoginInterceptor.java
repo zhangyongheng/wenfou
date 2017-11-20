@@ -35,7 +35,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		} else {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("loginToken")) {
+				if ("loginToken".equals(cookie.getName())) {
 					loginToken = cookie.getValue();
 					break;
 				}

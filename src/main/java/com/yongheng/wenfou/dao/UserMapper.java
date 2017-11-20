@@ -14,7 +14,6 @@ public interface UserMapper {
 
 	int selectEmailCount(String email);
 
-	// 这里需要用包装类型
 	Integer selectUserIdByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
 	User selectUserInfoByUserId(@Param("userId") Integer userId);

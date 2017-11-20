@@ -42,9 +42,7 @@ public class QuestionService {
 	@Autowired
 	private JedisPool jedisPool;
 
-	// 获得问题页详情
 	@Transactional(readOnly = true)
-	@SuppressWarnings("unchecked")
 	public Map<String, Object> getQuestionDetail(Integer questionId, Integer userId) {
 		Map<String, Object> map = new HashMap<>();
 		Jedis jedis = jedisPool.getResource();
@@ -81,6 +79,7 @@ public class QuestionService {
 			answer.setLikeState(rank == null ? "false" : "true");
 		}
 		// 获取话题信息
+		@SuppressWarnings("unchecked")
 		Map<Integer, String> topicMap = (Map<Integer, String>) JSON.parse(question.getTopicKvList());
 		jedis.close();
 		jedis = null;

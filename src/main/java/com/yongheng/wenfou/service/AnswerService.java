@@ -1,6 +1,5 @@
 package com.yongheng.wenfou.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +64,11 @@ public class AnswerService {
 		return pageBean;
 	}
 
-	// 点赞答案
+	/**
+	 *  点赞答案
+	 * @param userId
+	 * @param answerId
+	 */
 	public void likeAnswer(Integer userId, Integer answerId) {
 		Integer likedCount = answerMapper.selectLikedCountByAnswerId(answerId);
 		// 更新答案被点赞数量
@@ -75,12 +78,16 @@ public class AnswerService {
 		answerMapper.updateLikedCount(map);
 		// Redis中记录点赞用户
 		Jedis jedis = jedisPool.getResource();
-		jedis.zadd(answerId + RedisKey.LIKED_ANSWER, new Date().getTime(), String.valueOf(userId));
+		jedis.zadd(answerId + RedisKey.LIKED_ANSWER, System.currentTimeMillis(), String.valueOf(userId));
 		jedis.close();
 		jedis = null;
 	}
 
-	// 取消点赞
+	/** 
+	 * 取消点赞
+	 * @param userId
+	 * @param answerId
+	 */
 	public void unLikeAnswer(Integer userId, Integer answerId) {
 		Integer likedCount = answerMapper.selectLikedCountByAnswerId(answerId);
 		// 更新答案被点赞数量
@@ -97,7 +104,7 @@ public class AnswerService {
 
 	public Integer answer(Answer answer, Integer userId) {
 		answer.setUserId(userId);
-		answer.setCreateTime(new Date().getTime());
+		answer.setCreateTime(System.currentTimeMillis());
 		answerMapper.insertAnswer(answer);
 
 		return answer.getAnswerId();
