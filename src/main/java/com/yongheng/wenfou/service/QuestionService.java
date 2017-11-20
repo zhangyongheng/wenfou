@@ -122,6 +122,11 @@ public class QuestionService {
 		map.put("userId", userId);
 		// 得到某页数据列表
 		List<Question> questionList = questionMapper.listQuestionByUserId(map);
+		//给每个Question设置answerCount
+		for (Question question : questionList) {
+			Integer answerCount = answerMapper.selectAnswerCountByQuestionId(question.getQuestionId());
+			question.setAnswerCount(answerCount );
+		}
 
 		// 构造PageBean
 		PageBean<Question> pageBean = new PageBean<>(allPage, curPage);

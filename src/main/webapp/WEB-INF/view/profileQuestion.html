@@ -1,0 +1,129 @@
+﻿<#setting number_format="#">
+<#assign base = request.contextPath/>
+<!DOCTYPE html>
+<html>
+<head>
+<title>个人信息</title>
+<link rel="stylesheet" type="text/css" href="${base}/css/base.css">
+<link rel="stylesheet" type="text/css" href="${base}/css/nav.css">
+<link rel="stylesheet" type="text/css" href="${base}/css/profile.css">
+</head>
+<body>
+<#include "nav.html" />
+<div class="profile-wrap">
+	<div class="profile-header">
+		<div class="profile-info">
+			<div class="profile-avatar">
+				<img src="${user.avatarUrl}">
+			</div>
+			<div class="two-button" id="isSelf" data-id="${isSelf}">
+				<a href="${base}/setting" id="settingButton" class="follow-button">编辑信息</a>
+				<button id="followUserButton" class="follow-button">关注</button>
+				<button id="unfollowUserButton" class="unfollow-button">取消关注</button>
+			</div>
+			<div class="info-title">
+				<span id="userId" data-id="${user.userId}">${user.username}</span>
+				<span>${user.simpleDesc}</span>
+			</div>
+			<#if user.position??>
+			<div class="info-item">
+				<span class="item-key">居住地</span>
+				<div class="item-value">
+					${user.position}
+				</div>
+			</div>
+			</#if>
+			<#if user.industry??>
+			<div class="info-item">
+				<span class="item-key">所在行业</span>
+				<div class="item-value">
+					${user.industry}
+				</div>
+			</div>
+			</#if>
+			<#if user.career??>
+			<div class="info-item">
+				<span class="item-key">职业经历</span>
+				<div class="item-value">
+					${user.career}
+				</div>
+			</div>
+			</#if>
+			<#if user.education??>
+			<div class="info-item">
+				<span class="item-key">教育背景</span>
+				<div class="item-value">
+					${user.education}
+				</div>
+			</div>
+			</#if>
+			<#if user.fulldesc??>
+			<div class="info-item">
+				<span class="item-key">个人简介</span>
+				<div class="item-value">
+					${user.fullDesc}
+				</div>
+			</div>
+			</#if>
+		</div>
+	</div>
+	<div class="main">
+		<div class="content" id="content">
+			<ul class="tab-header">
+				<li><a href="${base}/profile/${user.userId}" id="tab-header-answer">回答</a></li>
+				<li><a href="${base}/profileQuestion/${user.userId}" id="tab-header-question" class="tab-header-active">提问</a></li>
+				<li><a href="${base}/profileCollection/${user.userId}" id="tab-header-collection">收藏</a></li>
+				<li><a href="${base}/profileFollowPeople/${user.userId}" id="tab-header-follow">关注</a></li>
+			</ul>
+			<div class="question-tab">
+				<div class="tab-title">
+					<h3>他的提问</h3>
+				</div>
+				<div class="question-list">
+						<ul>
+							<#list pageBean.list as question>
+								<li>
+									<h3 class="question-title">
+										<a href="${base}/question/${question.questionId}">${question.questionTitle}</a>
+									</h3>
+									<div class="question-meta">
+										<span>${question.createTime?number_to_date}</span><span class="dot-split">.</span>
+										<span>${question.answerCount} 个回答</span><span class="dot-split">.</span>
+										<span>${question.followedCount} 个关注</span>
+									</div>
+								</li>
+							</#list>
+						</ul>
+
+					</div>
+			</div>
+		</div>
+		<div class="sidebar">
+			<div class="profile-achieve">
+				<h3>个人成就</h3>
+				<div class="achieve-info">
+					<p>
+						<i class="sprite-thumb"></i>&nbsp;&nbsp;&nbsp;获得<span>
+								${user.likedCount} 
+						</span>次赞同
+					</p>
+					<p>
+							获得
+						<span> ${user.collectedCount} </span>次收藏
+					</p>
+				</div>
+			</div>
+			<div class="footer">
+				<a href="#">建议反馈</a><span> • </span><a href="#">联系我们</a>
+				<div>
+				</div>
+				<span>@ 2017 闻否</span>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/js/profile.js"></script>
+
+</body>
+</html>

@@ -303,6 +303,43 @@
 	top: 2px;
 }
 
+/*问题的面板*/
+.question-tab {
+	padding: 0 24px;
+}
+
+.question-tab .tab-title {
+	position: relative;
+	padding: 20px 0 30px;
+	border-bottom: 1px solid #f0f2f7;
+}
+
+.question-tab .tab-title h3 {
+	float: left;
+	font-size: 15px;
+	font-weight: 700;
+	color: #404040;
+}
+
+.question-tab .question-list ul li {
+	position: relative;
+	padding: 20px 0 10px;
+	border-bottom: 1px solid #f0f2f7;
+}
+
+.question-tab .question-list ul li .question-title a {
+	font-size: 18px;
+	color: #404040;
+}
+
+.question-tab .question-list ul li .question-meta {
+	margin-top: 8px;
+	font-size: 14px;
+	color: #8590a6;
+}
+
+
+
 /*新点赞按钮*/
 .votebar {
 	float: left;

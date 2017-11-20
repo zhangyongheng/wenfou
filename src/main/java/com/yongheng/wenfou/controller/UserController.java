@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yongheng.wenfou.dto.PageBean;
 import com.yongheng.wenfou.dto.Response;
 import com.yongheng.wenfou.po.Answer;
+import com.yongheng.wenfou.po.Question;
 import com.yongheng.wenfou.service.AnswerService;
+import com.yongheng.wenfou.service.QuestionService;
 import com.yongheng.wenfou.service.UserService;
 
 @Controller
@@ -27,6 +29,9 @@ public class UserController {
 
 	@Autowired
 	private AnswerService answerService;
+
+	@Autowired
+	private QuestionService questionService;
 
 	@RequestMapping("/toLogin")
 	public String toLogin() {
@@ -88,6 +93,24 @@ public class UserController {
 	public Response unfollowUser(Integer userId, Integer peopleId) {
 		Integer result = userService.unfollowUser(userId, peopleId);
 		return new Response(result);
+	}
+
+	@RequestMapping("/profileQuestion/{userId}")
+	public String profileQuestion(@PathVariable Integer userId, Integer page, HttpServletRequest request, Model model)
+			throws Exception {
+		Map<String, Object> map = userService.profile(userId);
+		if (map.get("user") == null) {
+			throw new Exception("该用户不存在");
+		}
+		// 判断用户是否是自己
+		boolean isSelf = userService.judgeUserIsSelf(userId, request);
+		PageBean<Question> pageBean = questionService.listQuestionByUserId(userId, page);
+		
+		map.put("isSelf", String.valueOf(isSelf));
+		map.put("pageBean", pageBean);
+
+		model.addAllAttributes(map);
+		return "profileQuestion";
 	}
 
 }
