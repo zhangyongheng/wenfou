@@ -55,32 +55,6 @@
 		limit #{offset},#{limit}
 	</select>
 
-	<select id="listQuestionByQuestionId" resultType="Question">
-		select * from question
-		<where>
-			question_id in
-			<foreach collection="list" item="item" index="index" open="("
-				separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</select>
-
-	<!-- 大烂sql。。。 -->
-	<select id="listRelatedQuestion" resultType="Question">
-		select
-		q.question_id,q.question_title,count(*) as answer_count from answer a
-		join
-		(select q.question_id,q.question_title from question_topic qt join
-		question q on qt.question_id = q.question_id
-		where qt.topic_id =
-		(select topic_id from question_topic where question_id
-		= 2 limit 0,1)
-		and q.question_id != 2
-		limit 0,5) q on q.question_id = a.question_id
-
-	</select>
-
 	<select id="selectQuestionByAnswerId" resultType="Question">
 		select * from
 		question

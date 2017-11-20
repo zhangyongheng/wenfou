@@ -9,7 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yongheng.wenfou.dto.Response;
+import com.yongheng.wenfou.po.Question;
 import com.yongheng.wenfou.service.QuestionService;
 import com.yongheng.wenfou.service.UserService;
 
@@ -36,6 +39,15 @@ public class QuestionController {
 	@RequestMapping("/questionList")
 	public String questionList() {
 		return "questionList";
+	}
+	
+	@RequestMapping("/ask")
+	@ResponseBody
+	public Response ask(Question question, String topicName, HttpServletRequest request) {
+		Integer userId = userService.getUserIdFromRedis(request);
+		Integer questionId = questionService.ask(question, topicName, userId);
+		
+		return new Response(0, "", questionId);
 	}
 
 }

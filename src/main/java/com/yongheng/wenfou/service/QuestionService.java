@@ -1,5 +1,6 @@
 package com.yongheng.wenfou.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,16 +8,19 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.yongheng.wenfou.dao.AnswerMapper;
 import com.yongheng.wenfou.dao.CommentMapper;
 import com.yongheng.wenfou.dao.QuestionMapper;
+import com.yongheng.wenfou.dao.TopicMapper;
 import com.yongheng.wenfou.dao.UserMapper;
 import com.yongheng.wenfou.dto.PageBean;
 import com.yongheng.wenfou.po.Answer;
 import com.yongheng.wenfou.po.AnswerComment;
 import com.yongheng.wenfou.po.Question;
+import com.yongheng.wenfou.po.Topic;
 import com.yongheng.wenfou.po.User;
 import com.yongheng.wenfou.util.RedisKey;
 
@@ -42,6 +46,9 @@ public class QuestionService {
 	@Autowired
 	private JedisPool jedisPool;
 
+	@Autowired
+	private TopicMapper topicMapper;
+
 	@Transactional(readOnly = true)
 	public Map<String, Object> getQuestionDetail(Integer questionId, Integer userId) {
 		Map<String, Object> map = new HashMap<>();
@@ -49,7 +56,7 @@ public class QuestionService {
 		// 获取问题信息
 		Question question = questionMapper.selectQuestionByQuestionId(questionId);
 		if (question == null) {
-			throw new RuntimeException("该问题id不存在~");
+			throw new RuntimeException("该问题不存在~");
 		}
 
 		// 获取提问用户信息
@@ -83,7 +90,7 @@ public class QuestionService {
 		Map<Integer, String> topicMap = (Map<Integer, String>) JSON.parse(question.getTopicKvList());
 		jedis.close();
 		jedis = null;
-		
+
 		map.put("topicMap", topicMap);
 		map.put("question", question);
 		map.put("answerList", answerList);
@@ -121,6 +128,40 @@ public class QuestionService {
 		pageBean.setList(questionList);
 
 		return pageBean;
+	}
+
+	public Integer ask(Question question, String topicName, Integer userId) {
+		if (StringUtils.isEmpty(topicName)) {
+			topicName = "其他";
+		}
+		String[] topicNames = topicName.trim().split(",|，");
+		Map<Integer, String> map = new HashMap<>();
+
+		List<Integer> topicIdList = new ArrayList<>();
+		for (String name : topicNames) {
+			Topic topic = new Topic();
+			Integer topicId = topicMapper.selectTopicIdByTopicName(name);
+			if (topicId == null) {
+				topic.setTopicName(name);
+				topic.setParentTopicId(1);
+				topicMapper.insertTopic(topic);
+				topicId = topic.getTopicId();
+			}
+			map.put(topicId, name);
+			topicIdList.add(topicId);
+		}
+		String topicKvList = JSON.toJSONString(map);
+		question.setTopicKvList(topicKvList);
+		question.setCreateTime(System.currentTimeMillis());
+		question.setUserId(userId);
+		questionMapper.insertQuestion(question);
+
+		// 向关联表插入数据
+		for (Integer topicId : topicIdList) {
+			questionMapper.insertIntoQuestionTopic(question.getQuestionId(), topicId);
+		}
+
+		return question.getQuestionId();
 	}
 
 }

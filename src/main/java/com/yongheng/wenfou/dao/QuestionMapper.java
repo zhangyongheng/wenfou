@@ -26,10 +26,6 @@ public interface QuestionMapper {
 
 	List<Integer> listQuestionIdByTopicId(Map<String, Object> map);
 
-	List<Question> listQuestionByQuestionId(List<Integer> questionIdList);
-
-	List<Question> listRelatedQuestion(@Param("questionId") Integer questionId);
-
 	Question selectQuestionByAnswerId(@Param("answerId") Integer answerId);
 
 }
