@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,7 +39,7 @@ public class UserController {
 		return "toLogin";
 	}
 
-	@RequestMapping("/login")
+	@PostMapping("/login")
 	@ResponseBody
 	public Response login(String email, String password, HttpServletResponse response) {
 
@@ -74,21 +75,21 @@ public class UserController {
 		return "profileAnswer";
 	}
 
-	@RequestMapping("/judgePeopleFollowUser")
+	@PostMapping("/judgePeopleFollowUser")
 	@ResponseBody
 	public Response judgePeopleFollowUserI(Integer userId, Integer peopleId) {
 		Boolean followed = userService.judgePeopleFollowUser(userId, peopleId);
 		return new Response(0, "", followed);
 	}
 
-	@RequestMapping("/followUser")
+	@PostMapping("/followUser")
 	@ResponseBody
 	public Response followUser(Integer userId, Integer peopleId) {
 		Integer result = userService.followUser(userId, peopleId);
 		return new Response(result);
 	}
 
-	@RequestMapping("/unfollowUser")
+	@PostMapping("/unfollowUser")
 	@ResponseBody
 	public Response unfollowUser(Integer userId, Integer peopleId) {
 		Integer result = userService.unfollowUser(userId, peopleId);

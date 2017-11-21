@@ -3,6 +3,7 @@ package com.yongheng.wenfou.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,21 +22,21 @@ public class AnswerController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping("/likeAnswer")
+	@PostMapping("/likeAnswer")
 	public Response likeAnswer(Integer answerId, HttpServletRequest request) {
 		Integer userId = userService.getUserIdFromRedis(request);
 		answerService.likeAnswer(userId, answerId);
 		return new Response(0, "");
 	}
 
-	@RequestMapping("/unLikeAnswer")
+	@PostMapping("/unLikeAnswer")
 	public Response unLikeAnswer(Integer answerId, HttpServletRequest request) {
 		Integer userId = userService.getUserIdFromRedis(request);
 		answerService.unLikeAnswer(userId, answerId);
 		return new Response(0, "");
 	}
 
-	@RequestMapping("/answer")
+	@PostMapping("/answer")
 	public Response answer(Answer answer, HttpServletRequest request) {
 		System.out.println(answer);
 		Integer userId = userService.getUserIdFromRedis(request);
@@ -44,7 +45,7 @@ public class AnswerController {
 		return new Response(0, "", answerId);
 	}
 	
-	@RequestMapping("/deleteAnswer")
+	@PostMapping("/deleteAnswer")
 	public Response deleteAnswer(Integer answerId, HttpServletRequest request) {
 		Integer answerUserId = answerService.getUserIdByAnswerId(answerId);
 		Integer userId = userService.getUserIdFromRedis(request);

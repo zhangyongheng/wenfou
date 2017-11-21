@@ -98,7 +98,6 @@ $(function() {
 				}
 			});
 			
-
 		} else if ($(this).attr("clicked") == "true"){
 			$(this).removeClass("like-clicked")
 			$(this).find("i").removeClass("like-clicked-i");
@@ -233,73 +232,6 @@ $(function() {
 					alert("出现错误了~");
 				}
 			}
-		});
-	});
-
-	// 评论问题
-	var commentQuestionForm = $("#commentQuestionForm");
-	var commentQestionButton = $("#commentQuestionButton");
-
-	commentQestionButton.on("click", function(event) {
-		if (commentQuestionForm.find("textarea").val().trim() == '') {
-			return false;
-		}
-		event.preventDefault();
-		var form = new FormData();
-		form.append("questionId", commentQuestionForm.find("input[name=questionId]").val());
-		form.append("commentContent", commentQuestionForm.find("textarea").val());
-		$.ajax({
-			url : basepath + "commentQuestion",
-			type : "post",
-			data : form,
-			processData : false,
-			contentType : false,
-			success : function(response) {
-				if (response.state == 0) {
-					var prefix = location.origin + location.pathname;
-					var newPath = prefix + "#question-comment-" + response.data.questionCommentId;
-					window.location.href = newPath;
-					window.location.reload();
-				}
-			}
-		});
-	});
-
-	// 回复问题评论
-	var commentLi = $(".comment-li");
-	commentLi.each(function() {
-		that = $(this);
-		var reply = that.find(".add-comment-reply");
-		$(this).find(".toggle-reply").on("click", function(event) {
-			event.preventDefault();
-			reply.toggle();
-		});
-
-		// 提交回复表单
-		var replyForm = reply.find(".reply-form");
-		var replyQuestionButton = replyForm.find(".reply-button");
-		replyQuestionButton.on("click", function() {
-			var formData = new FormData();
-			formData.append("questionId", replyForm.find("input[name=questionId]").val());
-			formData.append("atUserId", replyForm.find("input[name=atUserId]").val());
-			formData.append("atUserName", replyForm.find("input[name=atUserName]").val());
-			formData.append("questionCommentContent", replyForm.find("textarea").val());
-
-			$.ajax({
-				url : basepath + "replyQuestionComment",
-				type : "post",
-				data : formData,
-				processData : false,
-				contentType : false,
-				success : function(response) {
-					if (response.state == 0) {
-						var prefix = location.origin + location.pathname;
-						var newPath = prefix + "#question-comment-" + response.data.questionCommentId;
-						window.location.href = newPath;
-						window.location.reload();
-					}
-				}
-			});
 		});
 	});
 

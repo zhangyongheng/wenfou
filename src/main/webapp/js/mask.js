@@ -11,6 +11,7 @@ $(function() { /*提问模态框处理*/
 		if (editArea) {
 			editArea.hide();
 		}
+		return false;
 	});
 	closeMask.click(function() {
 		mask.hide();
@@ -18,6 +19,7 @@ $(function() { /*提问模态框处理*/
 		if (editArea) {
 			editArea.show();
 		}
+		return false;
 	});
 
 	/*富文本编辑器创建*/
