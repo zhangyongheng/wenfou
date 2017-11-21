@@ -97,8 +97,8 @@ $(function() {
 					that.append("<i class='like-clicked-i'></i>");
 				}
 			});
-			
-		} else if ($(this).attr("clicked") == "true"){
+
+		} else if ($(this).attr("clicked") == "true") {
 			$(this).removeClass("like-clicked")
 			$(this).find("i").removeClass("like-clicked-i");
 			$(this).addClass("like-unclicked")
@@ -266,11 +266,20 @@ $(function() {
 		});
 	});
 
+	var commentLi = $(".comment-li");
+	commentLi.each(function() {
+		var reply = $(this).find(".add-comment-reply");
+		$(this).find(".toggle-reply").on("click", function(event) {
+			event.preventDefault();
+			reply.toggle();
+		});
+	});
+
 	// 回复答案评论
 	var replyAnswerForm = $(".reply-answer-form");
 	replyAnswerForm.each(function() {
 		var that = $(this);
-		$(this).find(".reply-button").on("click", function() {
+		$(this).find(".reply-button").on("click", function(event) {
 			var formData = new FormData();
 			formData.append("answerId", that.find("input[name=answerId]").val());
 			formData.append("atUserId", that.find("input[name=atUserId]").val());

@@ -58,7 +58,11 @@
 						<ul>
 							<#list answer.answerCommentList as comment>
 								<li class="comment-li" id="answer-comment-${comment.answerCommentId}">
+									<#if comment.user.avatarUrl?? && comment.user.avatarUrl != "">
 									<img src="${comment.user.avatarUrl}">
+									<#else>
+									<img src="${base}/image/avatar.png">
+									</#if>
 									<div class="comment-main">
 										<div class="user-name">
 											<#if comment.atUserId?? >
@@ -129,8 +133,6 @@
 				<button id="followQuestionButton" class="follow">关注问题</button>
 				<div class="follower-info">
 					<a href="#" class="follower-count">${question.followedCount}</a> 人关注该问题
-					<div class="follower-avatar">
-					</div>
 				</div>
 			</div>
 			<div class="question-status">
