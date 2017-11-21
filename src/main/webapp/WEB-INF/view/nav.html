@@ -1,18 +1,7 @@
 ﻿<#-- freemarker默认的数字格式是1,000 -->
 <#setting number_format="#">
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>
-		$(function() {
-			$(".profile-link").attr("href", "${base}/profile/" + localStorage.userId);
-			$(".profile-follow-question-link").attr("href", "${base}/profileFollowQuestion/" + localStorage.userId);
-			$(".profile-question-link").attr("href", "${base}/profileQuestion/" + localStorage.userId);
-			if (localStorage.avatarUrl && localStorage.avatarUrl != "null") {
-				$("#profile-avatar").attr("src", localStorage.avatarUrl);
-			}
-			$("#profile-username").text(localStorage.username);
-		});
-	</script>
 <base id="baseUrl" href="${base}/"/>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
 <div class="nav">
 	<div class="nav-wrap">
 		<a href="${base}/index" class="logo">闻否</a>
@@ -35,7 +24,7 @@
 		<button class="ask-question open-mask">提问</button>
 		<div class="nav-profile">
 			<a id="profile-link" href="profile" class="profile-link">
-			<img id="profile-avatar" src="${base}/image/avatar.png">
+			<img id="profile-avatar">
 			<span id="profile-username"></span>
 			</a>
 			<ul class="nav-dropdown">

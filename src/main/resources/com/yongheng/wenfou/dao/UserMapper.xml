@@ -42,9 +42,8 @@
 	</select>
 
 	<update id="updateActivationStateByActivationCode">
-		update user set activation_state = 1 where
-		activation_code =
-		#{activationCode}
+		update user set activation_state = 1 
+		where activation_code =	#{activationCode}
 	</update>
 
 	<select id="selectProfileInfoByUserId" resultType="User">

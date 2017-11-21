@@ -56,6 +56,17 @@ public class UserController {
 		userService.logout(request, response);
 		return "redirect:/toLogin";
 	}
+	
+	@PostMapping("/register")
+	@ResponseBody
+	public Response register(String username, String email, String password, HttpServletResponse response) {
+		Map<String, String> map = userService.register(username, email, password);
+		if (map.get("ok") != null ) {
+			return new Response(0, "注册成功,请登录！", map);
+		} else {
+			return new Response(-1, "", map);
+		}
+	}
 
 	@RequestMapping("/profile/{userId}")
 	public String profile(@PathVariable Integer userId, Integer page, HttpServletRequest request, Model model)

@@ -40,6 +40,4 @@ public interface UserMapper {
 
 	String selectUsernameByUserId(@Param("userId") Integer userId);
 
-	User selectUserInfoByWeiboUserId(String weiboUserId);
-
 }

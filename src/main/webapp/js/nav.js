@@ -23,6 +23,17 @@ function longToDateString(num) {
 
 $(function() {
 
+	$(".profile-link").attr("href", basepath + "profile/" + localStorage.userId);
+	$(".profile-follow-question-link").attr("href", basepath + "profileFollowQuestion/" + localStorage.userId);
+	$(".profile-question-link").attr("href", basepath + "profileQuestion/" + localStorage.userId);
+	if (localStorage.avatarUrl && localStorage.avatarUrl != "null") {
+		$("#profile-avatar").attr("src", localStorage.avatarUrl);
+	} else {
+		$("#profile-avatar").attr("src", basepath + "image/avatar.png");
+		
+	}
+	$("#profile-username").text(localStorage.username);
+
 	// 下拉菜单处理
 	var profile = $(".nav-profile");
 	var downMenu = $(".nav-dropdown");

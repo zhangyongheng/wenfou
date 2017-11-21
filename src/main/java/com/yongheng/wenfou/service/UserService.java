@@ -31,11 +31,11 @@ import redis.clients.jedis.JedisPool;
 @Service
 @Transactional
 public class UserService {
-	
+
 	public static final String EMAIL_REGEX = "^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\\.[a-zA-Z0-9_-]{2,3}){1,2})$";
-	
+
 	public static final String PASSWORD_REGEX = "^\\w{6,20}$";
-	
+
 	@Autowired
 	private UserMapper userMapper;
 
@@ -50,7 +50,7 @@ public class UserService {
 
 	@Autowired
 	private JedisPool jedisPool;
-	
+
 	public Map<String, String> register(String username, String email, String password) {
 		Map<String, String> map = new HashMap<>();
 		// 校验邮箱格式
@@ -84,15 +84,17 @@ public class UserService {
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(MyUtil.md5(password));
-		// 构造user，设置未激活
-		String activateCode = MyUtil.createRandomCode();
-		user.setActivationCode(activateCode);
-		user.setJoinTime(System.currentTimeMillis());
 
+		String activationCode = MyUtil.createRandomCode();
+		user.setActivationCode(activationCode);
+		user.setJoinTime(System.currentTimeMillis());
 		user.setUsername(username);
+		user.setAvatarUrl("");
 
 		// 向数据库插入记录
 		userMapper.insertUser(user);
+		// 设置已激活
+		userMapper.updateActivationStateByActivationCode(activationCode);
 
 		map.put("ok", "注册完成");
 		return map;
@@ -122,7 +124,7 @@ public class UserService {
 		cookie.setPath("/");
 		cookie.setMaxAge(60 * 60 * 24 * 30);
 		response.addCookie(cookie);
-		
+
 		Jedis jedis = jedisPool.getResource();
 		jedis.set(loginToken, userId.toString(), "NX", "EX", 60 * 60 * 24 * 30);
 		jedis.close();
@@ -134,10 +136,6 @@ public class UserService {
 		map.put("userInfo", user);
 
 		return map;
-	}
-
-	public void activate(String activationCode) {
-		userMapper.updateActivationStateByActivationCode(activationCode);
 	}
 
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
@@ -153,19 +151,13 @@ public class UserService {
 		cookie.setPath("/");
 		cookie.setMaxAge(60 * 60 * 24 * 30);
 		response.addCookie(cookie);
-		
+
 		Jedis jedis = jedisPool.getResource();
 		jedis.del(loginToken);
 		jedis.close();
 		jedis = null;
 
 		return loginToken;
-	}
-
-	@Transactional(readOnly = true)
-	public User getProfileInfo(Integer userId) {
-		User user = userMapper.selectProfileInfoByUserId(userId);
-		return user;
 	}
 
 	public void updateProfile(User user) {
@@ -283,11 +275,11 @@ public class UserService {
 
 		return Integer.parseInt(userId);
 	}
-	
+
 	public boolean judgeUserIsSelf(Integer userId, HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
-			if ("loginToken".equals(cookie.getName())){
+			if ("loginToken".equals(cookie.getName())) {
 				String loginToken = cookie.getValue();
 				String localUserId = jedisPool.getResource().get(loginToken);
 				if (localUserId != null) {
@@ -297,5 +289,5 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
 }
