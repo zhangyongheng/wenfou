@@ -35,8 +35,9 @@
 	</select>
 
 	<select id="listQuestionByPage" resultType="Question">
-		select * from
-		question
+		select * 
+		from question
+		order by create_time desc
 		limit #{offset},#{limit}
 	</select>
 

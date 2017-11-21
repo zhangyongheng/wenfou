@@ -32,5 +32,13 @@ public class MyUtil {
 	public static String createRandomCode() {
 		return System.currentTimeMillis() + UUID.randomUUID().toString().replace("-", "");
 	}
-	
+
+	public static String stringFilter(String str) {
+		if (str != null) {
+			str = str.replace("<script>", "&lt;script&gt;");
+			str = str.replace("</script>", "&lt;/script&gt;");
+		}
+		return str;
+	}
+
 }

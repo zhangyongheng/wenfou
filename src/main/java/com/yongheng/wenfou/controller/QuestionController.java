@@ -1,5 +1,7 @@
 package com.yongheng.wenfou.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,5 +52,13 @@ public class QuestionController {
 		
 		return new Response(0, "", questionId);
 	}
-
+	
+	@PostMapping("/listQuestionByPage")
+	@ResponseBody
+	public Response listQuestionByPage(Integer page) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Question> questionList = questionService.listQuestionByPage(page);
+		map.put("questionList", questionList);
+		return new Response(0, "", map);
+	}
 }

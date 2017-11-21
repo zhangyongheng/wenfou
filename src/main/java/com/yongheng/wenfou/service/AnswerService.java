@@ -12,6 +12,7 @@ import com.yongheng.wenfou.dao.AnswerMapper;
 import com.yongheng.wenfou.dao.CommentMapper;
 import com.yongheng.wenfou.dto.PageBean;
 import com.yongheng.wenfou.po.Answer;
+import com.yongheng.wenfou.util.MyUtil;
 import com.yongheng.wenfou.util.RedisKey;
 
 import redis.clients.jedis.Jedis;
@@ -105,6 +106,8 @@ public class AnswerService {
 	public Integer answer(Answer answer, Integer userId) {
 		answer.setUserId(userId);
 		answer.setCreateTime(System.currentTimeMillis());
+		//对回答内容进行过滤
+		answer.setAnswerContent(MyUtil.stringFilter(answer.getAnswerContent()));
 		answerMapper.insertAnswer(answer);
 
 		return answer.getAnswerId();

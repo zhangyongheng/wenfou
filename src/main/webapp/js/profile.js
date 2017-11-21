@@ -1,5 +1,3 @@
-var basepath = $("#baseUrl").attr("href");
-
 $(function() {
 	var isSelf = $("#isSelf").attr("data-id");
 	var userId = localStorage.userId;

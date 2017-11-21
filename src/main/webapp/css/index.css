@@ -92,13 +92,6 @@ ul.home-entry-list li a:hover {
 	font-weight: 700;
 }
 
-.list-title .setting a {
-	float: right;
-	color: #698ebf;
-	font-weight: 400;
-	font-size: 13px;
-}
-
 /*feed流部分*/
 .feed-list {
 	border: 1px #e7eaf1 solid;

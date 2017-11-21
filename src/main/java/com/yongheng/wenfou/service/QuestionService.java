@@ -22,6 +22,7 @@ import com.yongheng.wenfou.po.AnswerComment;
 import com.yongheng.wenfou.po.Question;
 import com.yongheng.wenfou.po.Topic;
 import com.yongheng.wenfou.po.User;
+import com.yongheng.wenfou.util.MyUtil;
 import com.yongheng.wenfou.util.RedisKey;
 
 import redis.clients.jedis.Jedis;
@@ -122,10 +123,10 @@ public class QuestionService {
 		map.put("userId", userId);
 		// 得到某页数据列表
 		List<Question> questionList = questionMapper.listQuestionByUserId(map);
-		//给每个Question设置answerCount
+		// 给每个Question设置answerCount
 		for (Question question : questionList) {
 			Integer answerCount = answerMapper.selectAnswerCountByQuestionId(question.getQuestionId());
-			question.setAnswerCount(answerCount );
+			question.setAnswerCount(answerCount);
 		}
 
 		// 构造PageBean
@@ -139,7 +140,7 @@ public class QuestionService {
 		if (StringUtils.isEmpty(topicName)) {
 			topicName = "其他";
 		}
-		String[] topicNames = topicName.trim().split(",|，");
+		String[] topicNames = MyUtil.stringFilter(topicName).trim().split(",|，");
 		Map<Integer, String> map = new HashMap<>();
 
 		List<Integer> topicIdList = new ArrayList<>();
@@ -159,6 +160,8 @@ public class QuestionService {
 		question.setTopicKvList(topicKvList);
 		question.setCreateTime(System.currentTimeMillis());
 		question.setUserId(userId);
+		question.setQuestionTitle(MyUtil.stringFilter(question.getQuestionTitle()));
+		question.setQuestionContent(MyUtil.stringFilter(question.getQuestionContent()));
 		questionMapper.insertQuestion(question);
 
 		// 向关联表插入数据
@@ -167,6 +170,23 @@ public class QuestionService {
 		}
 
 		return question.getQuestionId();
+	}
+
+	public List<Question> listQuestionByPage(Integer curPage) {
+		// 当请求页数为空时
+		curPage = curPage == null ? 1 : curPage;
+		// 每页记录数，从哪开始
+		int limit = 10;
+		int offset = (curPage - 1) * limit;
+
+		List<Question> questionList = new ArrayList<Question>();
+		questionList = questionMapper.listQuestionByPage(offset, limit);
+
+		for (Question question : questionList) {
+			question.setAnswerCount(answerMapper.selectAnswerCountByQuestionId(question.getQuestionId()));
+		}
+
+		return questionList;
 	}
 
 }
