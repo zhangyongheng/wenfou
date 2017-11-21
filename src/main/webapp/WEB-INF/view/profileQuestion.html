@@ -14,7 +14,11 @@
 	<div class="profile-header">
 		<div class="profile-info">
 			<div class="profile-avatar">
+				<#if user.avatarUrl?? && user.avatarUrl != "">
 				<img src="${user.avatarUrl}">
+				<#else>
+				<img src="${base}/image/avatar.png">
+				</#if>
 			</div>
 			<div class="two-button" id="isSelf" data-id="${isSelf}">
 				<a href="${base}/setting" id="settingButton" class="follow-button">编辑信息</a>

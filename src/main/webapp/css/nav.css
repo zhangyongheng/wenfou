@@ -140,6 +140,7 @@
 	position: relative;
 	border: 1px solid #BFBFBF;
 	border-radius: 8px;
+	z-index: 9999;
 }
 
 .nav-profile ul.nav-dropdown li a{
